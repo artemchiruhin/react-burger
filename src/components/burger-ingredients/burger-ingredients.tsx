@@ -14,8 +14,8 @@ export const BurgerIngredients = ({ ingredients }: BurgerIngredientsProps) => {
     const ingredientsBlocks: IIngredientBlock[] = [
         {
             title: 'Булки',
-            type: 'main',
-            ingredients: ingredients.filter(ingredient => ingredient.type === 'main'),
+            type: 'bun',
+            ingredients: ingredients.filter(ingredient => ingredient.type === 'bun'),
             ref: useRef<HTMLDivElement>(null),
         },
         {
@@ -26,8 +26,8 @@ export const BurgerIngredients = ({ ingredients }: BurgerIngredientsProps) => {
         },
         {
             title: 'Начинки',
-            type: 'bun',
-            ingredients: ingredients.filter(ingredient => ingredient.type === 'bun'),
+            type: 'main',
+            ingredients: ingredients.filter(ingredient => ingredient.type === 'main'),
             ref: useRef<HTMLDivElement>(null),
         },
     ];
