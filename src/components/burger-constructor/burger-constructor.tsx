@@ -25,7 +25,7 @@ export const BurgerConstructor = ({ ingredients }: BurgerConstructorProps) => {
                 <div className={`${styles['unlocked-elements']}`}>
                     {
                         ingredients.map(ingredient => (
-                            <div className={`${styles['element-wrapper']}`}>
+                            <div className={`${styles['element-wrapper']}`} key={ingredient._id}>
                                 <div className={`${styles['element-drag']}`}>
                                     <DragIcon type="primary" />
                                 </div>
