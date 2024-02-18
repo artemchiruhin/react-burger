@@ -45,7 +45,7 @@ export const BurgerIngredients = ({ ingredients }: BurgerIngredientsProps) => {
         <section>
             <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
             <div className="ingredients">
-                <div style={{ display: 'flex' }} className="mb-10">
+                <div className={`${styles['ingredients__tabs']} mb-10`}>
                     {
                         ingredientsBlocks.map(block => (
                             <Tab key={block.type} value={block.type} active={currentBlock === block.type} onClick={setCurrentBlock}>
