@@ -24,7 +24,7 @@ export const IngredientCard = ({ ingredient, ...props }: IngredientCardProps) =>
 
     return (
         <>
-            { isModalShown && createPortal(
+            { isModalShown &&
                 <Modal onClose={onCloseModal}>
                     <ModalOverlay onClick={onCloseModal} />
                     <Modal.Content className='pl-10 pr-10 pt-10 pb-15'>
@@ -32,9 +32,7 @@ export const IngredientCard = ({ ingredient, ...props }: IngredientCardProps) =>
                         <Modal.CloseButton onClick={onCloseModal} />
                         <IngredientDetails ingredient={ingredient} />
                     </Modal.Content>
-                </Modal>,
-                document.body
-                )
+                </Modal>
             }
             <div className={`${styles['wrapper']}`} {...props} onClick={onClickIngredient}>
                 <div className={`${styles['image-wrapper']} pl-4 pr-4 mb-1`}>

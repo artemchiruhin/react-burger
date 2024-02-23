@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './modal.module.css';
+import {createPortal} from 'react-dom';
 
 interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
     onClose?: () => void,
@@ -19,10 +20,11 @@ export const Modal = ({ children, className, onClose, ...props }: ModalProps) =>
         });
     }, []);
 
-    return (
+    return createPortal(
         <div className={`${styles['modal']} ${className}`} {...props}>
             { children }
-        </div>
+        </div>,
+        document.body
     );
 }
 

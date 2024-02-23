@@ -24,16 +24,14 @@ export const BurgerConstructor = ({ ingredients }: BurgerConstructorProps) => {
 
     return (
         <>
-            { isModalShown && createPortal(
-                    <Modal onClose={onCloseModal}>
-                        <ModalOverlay onClick={onCloseModal} />
-                        <Modal.Content className='pl-10 pr-10 pt-30 pb-30'>
-                            <Modal.CloseButton onClick={onCloseModal} />
-                            <OrderDetails />
-                        </Modal.Content>
-                    </Modal>,
-                    document.body
-                )
+            { isModalShown &&
+                <Modal onClose={onCloseModal}>
+                    <ModalOverlay onClick={onCloseModal} />
+                    <Modal.Content className='pl-10 pr-10 pt-30 pb-30'>
+                        <Modal.CloseButton onClick={onCloseModal} />
+                        <OrderDetails />
+                    </Modal.Content>
+                </Modal>
             }
             <div className="custom-scroll pt-25">
                 <div className={`${styles['elements']}`}>
