@@ -1,0 +1,28 @@
+.content-wrapper {
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.image-wrapper {
+    height: 240px;
+}
+
+.image {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+}
+
+.ingredient-properties {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+}
+
+.ingredient-property {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
