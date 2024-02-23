@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {IIngredient} from '../../interfaces/IIngredient';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import {IngredientCard} from '../ingredient-card/ingredient-card';
@@ -10,7 +10,7 @@ interface BurgerIngredientsProps {
 }
 
 export const BurgerIngredients = ({ ingredients }: BurgerIngredientsProps) => {
-    const [currentBlock, setCurrentBlock] = React.useState('main');
+    const [currentBlock, setCurrentBlock] = useState('main');
     const ingredientsBlocks: IIngredientBlock[] = [
         {
             title: 'Булки',
