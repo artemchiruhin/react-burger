@@ -14,7 +14,9 @@ function App() {
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                setIngredients(data.data);
+                if(data.success) {
+                    setIngredients(data.data);
+                }
             } catch (e) {
                 console.error('При запросе произошла ошибка', e);
             }
