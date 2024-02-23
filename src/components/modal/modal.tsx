@@ -9,15 +9,13 @@ interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Modal = ({ children, className, onClose, ...props }: ModalProps) => {
     useEffect(() => {
-        document.addEventListener('keydown', (event) => {
+        const closeModal = (event: { key: string }) => {
             if(event.key !== 'Escape') return;
             onClose && onClose();
-        });
+        }
+        document.addEventListener('keydown', closeModal);
 
-        return () => document.removeEventListener('keydown', (event) => {
-            if(event.key !== 'Escape') return;
-            onClose && onClose();
-        });
+        return () => document.removeEventListener('keydown', closeModal);
     }, []);
 
     return createPortal(
