@@ -1,0 +1,27 @@
+.header__inner {
+    display: grid;
+    grid-template-columns: 1fr 290px 1fr;
+    grid-gap: 24px;
+    align-items: center;
+}
+
+.header__navigation-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.header__navigation-link {
+    display: flex;
+    align-items: center;
+    color: #8585AD;
+    text-decoration: none;
+}
+
+.header__navigation--additional .header__navigation-list {
+    justify-content: flex-end;
+}
+
+.header__navigation-link--active {
+    color: #F2F2F3;
+}

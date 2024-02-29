@@ -1,0 +1,37 @@
+.elements {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.element-wrapper {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    align-items: center;
+    grid-gap: 8px;
+}
+
+.element {
+    grid-column: 2;
+}
+
+.element-drag {
+    cursor: grab;
+}
+
+.total {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.total-sum {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.unlocked-elements {
+    max-height: 400px;
+    overflow: auto;
+}

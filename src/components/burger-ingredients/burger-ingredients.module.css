@@ -1,0 +1,14 @@
+.ingredients__list {
+    max-height: 600px;
+    overflow: auto;
+}
+
+.ingredients__items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 32px 24px;
+}
+
+.ingredients__tabs {
+    display: flex;
+}
