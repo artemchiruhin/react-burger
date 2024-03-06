@@ -1,37 +1,33 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import './App.css';
 import {AppHeader} from './components/app-header/app-header';
 import {BurgerIngredients} from './components/burger-ingredients/burger-ingredients';
 import {BurgerConstructor} from './components/burger-constructor/burger-constructor';
-import {IIngredient} from './interfaces/IIngredient';
-import {API_URL} from './constants';
+import {loadIngredients} from './services/actions/ingredients';
 
 function App() {
-    const [ingredients, setIngredients] = useState<IIngredient[]>([]);
+    const dispatch = useDispatch();
+    const loading = useSelector((store: any) => store.isLoading);
 
     useEffect(() => {
-        const getIngredients = async () => {
-            try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                if(data.success) {
-                    setIngredients(data.data);
-                }
-            } catch (e) {
-                console.error('При запросе произошла ошибка', e);
-            }
-        }
-
-        void getIngredients();
+        // @ts-ignore
+        dispatch(loadIngredients());
     }, []);
 
     return (
         <>
             <AppHeader/>
             <main className="main">
-                <div className="container main-container">
-                    <BurgerIngredients ingredients={ingredients} />
-                    <BurgerConstructor ingredients={ingredients} />
+                <div className="container main-container pl-2 pr-2">
+                    {
+                        loading
+                            ? <div>Загрузка...</div>
+                            : <>
+                                <BurgerIngredients />
+                                <BurgerConstructor />
+                            </>
+                    }
                 </div>
             </main>
         </>
