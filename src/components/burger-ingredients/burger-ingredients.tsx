@@ -1,16 +1,28 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {IIngredient} from '../../interfaces/IIngredient';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
+import {useDispatch, useSelector} from 'react-redux';
 import {IngredientCard} from '../ingredient-card/ingredient-card';
-import styles from './burger-ingredients.module.css';
 import {IIngredientBlock} from '../../interfaces/IIngredientBlock';
+import {IIngredient} from '../../interfaces/IIngredient';
+import {addIngredient, chooseBun} from '../../services/actions/ingredients';
+import styles from './burger-ingredients.module.css';
 
-interface BurgerIngredientsProps {
-    ingredients: IIngredient[]
-}
+interface BurgerIngredientsProps {}
 
-export const BurgerIngredients = ({ ingredients }: BurgerIngredientsProps) => {
+export const BurgerIngredients = ({}: BurgerIngredientsProps) => {
     const [currentBlock, setCurrentBlock] = useState('main');
+    const observer = useRef(null);
+    const { ingredients }: {ingredients: IIngredient[]} = useSelector((store: any) => store.ingredients);
+    const dispatch = useDispatch();
+
+    const onAddIngredient = useCallback((ingredient: IIngredient) => {
+        if(ingredient.type === 'bun') {
+            dispatch(chooseBun(ingredient));
+        } else {
+            dispatch(addIngredient(ingredient));
+        }
+    }, [dispatch]);
+
     const ingredientsBlocks: IIngredientBlock[] = [
         {
             title: 'Булки',
@@ -33,13 +45,29 @@ export const BurgerIngredients = ({ ingredients }: BurgerIngredientsProps) => {
     ];
 
     useEffect(() => {
-        const block = ingredientsBlocks.find(item => item.type === currentBlock);
-        if(!block) return;
+        // @ts-ignore
+        observer.current = new IntersectionObserver((entries) => {
+            console.log(entries)
+            const visibleSection = entries.find((entry) => entry.isIntersecting)?.target;
+            if (visibleSection) {
+                setCurrentBlock(visibleSection.id);
+            }
+        }, { threshold: 1 });
 
-        block.ref.current.scrollIntoView({
-            behavior: 'smooth',
+        const sections = document.querySelectorAll('[data-section]');
+
+        sections.forEach((section) => {
+            // @ts-ignore
+            observer.current?.observe(section);
         });
-    }, [currentBlock]);
+
+        return () => {
+            sections.forEach((section) => {
+                // @ts-ignore
+                observer.current?.unobserve(section);
+            });
+        };
+    }, []);
 
     return (
         <section>
@@ -58,11 +86,15 @@ export const BurgerIngredients = ({ ingredients }: BurgerIngredientsProps) => {
                     {
                         ingredientsBlocks.map(block => {
                             return (
-                                <div key={block.type} ref={block.ref} className="ingredients__block mb-10">
+                                <div key={block.type}
+                                     ref={block.ref}
+                                     className="ingredients__block mb-10" id={block.type}
+                                     data-section=""
+                                >
                                     <h2 className="ingredients__block-title text text_type_main-medium mb-6">{block.title}</h2>
                                     <div className={`${styles['ingredients__items']}`}>
                                         {
-                                            block.ingredients.map(ingredient => <IngredientCard key={ingredient._id} ingredient={ingredient} />)
+                                            block.ingredients.map(ingredient => <IngredientCard key={ingredient._id} ingredient={ingredient} onClick={() => onAddIngredient(ingredient)} />)
                                         }
                                     </div>
                                 </div>

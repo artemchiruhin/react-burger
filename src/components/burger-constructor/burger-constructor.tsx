@@ -1,26 +1,53 @@
-import React, {useState} from 'react';
-import {createPortal} from 'react-dom';
+import React, {useMemo, useState} from 'react';
 import {ConstructorElement, DragIcon, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {IIngredient} from '../../interfaces/IIngredient';
+import {useDispatch, useSelector} from 'react-redux';
+import {useDrop} from 'react-dnd';
 import {Modal} from '../modal/modal';
 import {ModalOverlay} from '../modal-overlay/modal-overlay';
 import {OrderDetails} from '../order-details/order-details';
+import {IIngredient} from '../../interfaces/IIngredient';
+import {addIngredient, chooseBun, deleteIngredient} from '../../services/actions/ingredients';
+import {createOrder} from '../../services/actions/order';
+import {AddedIngredient} from '../added-ingredient/added-ingredient';
 import styles from './burger-constructor.module.css';
 
-interface BurgerConstructorProps {
-    ingredients: IIngredient[],
-}
+interface BurgerConstructorProps {}
 
-export const BurgerConstructor = ({ ingredients }: BurgerConstructorProps) => {
+export const BurgerConstructor = ({}: BurgerConstructorProps) => {
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
+    const { addedIngredients, chosenBun }: { addedIngredients: IIngredient[], chosenBun: IIngredient } = useSelector((store: any) => store.ingredients);
+    const dispatch = useDispatch();
 
     const onClickCreateOrder = () => {
         setIsModalShown(true);
+        // @ts-ignore
+        dispatch(createOrder({ ingredients: [...addedIngredients.map(ingredient => ingredient._id), chosenBun._id] }));
     }
 
     const onCloseModal = () => {
         setIsModalShown(false);
     }
+
+    const orderSum = useMemo(() => {
+        let sum = addedIngredients.reduce((currentSum: number, currentItem: IIngredient) => currentSum + currentItem.price, 0);
+        if(chosenBun) {
+            sum += chosenBun.price * 2;
+        }
+        return sum;
+    }, [addedIngredients, chosenBun]);
+
+    const onDropIngredient = (ingredient: IIngredient) => {
+        if(ingredient.type === 'bun') {
+            dispatch(chooseBun(ingredient));
+        } else {
+            dispatch(addIngredient(ingredient));
+        }
+    }
+
+    const [, drop] = useDrop(() => ({
+        accept: 'addingIngredient',
+        drop: onDropIngredient,
+    }));
 
     return (
         <>
@@ -33,56 +60,49 @@ export const BurgerConstructor = ({ ingredients }: BurgerConstructorProps) => {
                     </Modal.Content>
                 </Modal>
             }
-            <div className="custom-scroll pt-25">
+            <div className="pt-25" ref={drop}>
                 <div className={`${styles['elements']}`}>
-                    {/* todo заменить на реальные данные при разработке */}
-                    <div className={`${styles['element-wrapper']}`}>
-                        <ConstructorElement
-                            type="top"
-                            isLocked={true}
-                            text="Краторная булка N-200i (низ)"
-                            price={200}
-                            thumbnail={'https://code.s3.yandex.net/react/code/meat-04.png'}
-                            extraClass={`${styles['element']}`}
-                        />
-                    </div>
+                    { !!chosenBun &&
+                        <div className={`${styles['element-wrapper']}`}>
+                            <ConstructorElement
+                                type="top"
+                                isLocked={true}
+                                text={`${chosenBun.name} (верх)`}
+                                price={chosenBun.price}
+                                thumbnail={chosenBun.image_mobile}
+                                extraClass={`${styles['element']}`}
+                            />
+                        </div>
+                    }
                     <div className={`${styles['unlocked-elements']}`}>
                         {
-                            ingredients.map(ingredient => (
-                                <div className={`${styles['element-wrapper']} mb-2`} key={ingredient._id}>
-                                    <div className={`${styles['element-drag']}`}>
-                                        <DragIcon type="primary" />
-                                    </div>
-                                    <ConstructorElement
-                                        text={ingredient.name}
-                                        price={ingredient.price}
-                                        thumbnail={ingredient.image_mobile}
-                                        extraClass={`${styles['element']}`}
-                                    />
-                                </div>
-                            ))
+                            addedIngredients.map((ingredient, index) => <AddedIngredient ingredient={ingredient} index={index} key={ingredient.uniqueId} />)
                         }
                     </div>
-                    <div className={`${styles['element-wrapper']}`}>
-                        <ConstructorElement
-                            type="bottom"
-                            isLocked={true}
-                            text="Краторная булка N-200i (низ)"
-                            price={200}
-                            thumbnail={'https://code.s3.yandex.net/react/code/meat-04.png'}
-                            extraClass={`${styles['element']}`}
-                        />
-                    </div>
+                    { !!chosenBun &&
+                        <div className={`${styles['element-wrapper']}`}>
+                            <ConstructorElement
+                                type="bottom"
+                                isLocked={true}
+                                text={`${chosenBun.name} (низ)`}
+                                price={chosenBun.price}
+                                thumbnail={chosenBun.image_mobile}
+                                extraClass={`${styles['element']}`}
+                            />
+                        </div>
+                    }
                 </div>
-                <div className={`${styles['total']} mt-10`}>
-                    <div className={`${styles['total-sum']} mr-10`}>
-                        <span className="text text_type_digits-medium">610</span>
-                        <CurrencyIcon type="primary" />
+                { !!orderSum &&
+                    <div className={`${styles['total']} mt-10`}>
+                        <div className={`${styles['total-sum']} mr-10`}>
+                            <span className="text text_type_digits-medium">{orderSum}</span>
+                            <CurrencyIcon type="primary" />
+                        </div>
+                        <Button htmlType="button" type="primary" size="large" onClick={onClickCreateOrder}>
+                            Оформить заказ
+                        </Button>
                     </div>
-                    <Button htmlType="button" type="primary" size="large" onClick={onClickCreateOrder}>
-                        Оформить заказ
-                    </Button>
-                </div>
+                }
             </div>
         </>
     );

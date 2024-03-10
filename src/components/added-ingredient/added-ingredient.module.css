@@ -1,0 +1,14 @@
+.element-wrapper {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    align-items: center;
+    grid-gap: 8px;
+}
+
+.element {
+    grid-column: 2;
+}
+
+.element-drag {
+    cursor: grab;
+}

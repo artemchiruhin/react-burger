@@ -1,12 +1,12 @@
 import React from 'react';
 import {IIngredient} from '../../interfaces/IIngredient';
 import styles from './ingredient-details.module.css';
+import {useSelector} from 'react-redux';
 
-interface IngredientDetailsProps {
-    ingredient: IIngredient,
-}
+interface IngredientDetailsProps {}
 
-export const IngredientDetails = ({ ingredient }: IngredientDetailsProps) => {
+export const IngredientDetails = ({}: IngredientDetailsProps) => {
+    const { currentShowingIngredient: ingredient } = useSelector((store: any) => store.ingredients);
     return (
         <div className={`${styles['content-wrapper']}`}>
             <div className={`${styles['image-wrapper']} pl-5 pr-5 mb-4`}>
