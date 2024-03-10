@@ -34,7 +34,7 @@ export const BurgerConstructor = ({}: BurgerConstructorProps) => {
             sum += chosenBun.price * 2;
         }
         return sum;
-    }, [JSON.stringify(addedIngredients), JSON.stringify(chosenBun)]);
+    }, [addedIngredients, chosenBun]);
 
     const onDropIngredient = (ingredient: IIngredient) => {
         if(ingredient.type === 'bun') {

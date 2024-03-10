@@ -21,7 +21,7 @@ export const IngredientCard = ({ ingredient, onClick, ...props }: IngredientCard
     const count = useMemo(() => {
         if(ingredient.type === 'bun' && ingredient._id === chosenBun?._id) return 1;
         return addedIngredients.filter(item => item._id === ingredient._id).length;
-    }, [JSON.stringify(addedIngredients), JSON.stringify(chosenBun)]);
+    }, [addedIngredients, chosenBun]);
 
     const [, drag] = useDrag(() => ({
         type: 'addingIngredient',
