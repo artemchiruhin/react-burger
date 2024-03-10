@@ -1,4 +1,5 @@
 import {API_URL} from '../../constants';
+import {checkResponse} from '../../utils/checkResponse';
 
 export const CREATE_ORDER_LOADING = 'CREATE_ORDER_LOADING';
 export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
@@ -17,7 +18,7 @@ export const createOrder = (data: IData) => (dispatch: any) => {
         },
         body: JSON.stringify(data),
     })
-        .then(response => response.ok ? response.json() : Promise.reject(response.json()))
+        .then(checkResponse)
         .then(response => dispatch({ type: CREATE_ORDER_SUCCESS, payload: response }))
         .catch(error => dispatch({ type: CREATE_ORDER_ERROR, payload: 'При сохранении заказа произошла ошибка' }))
 }

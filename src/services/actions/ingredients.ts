@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import {IIngredient} from '../../interfaces/IIngredient';
 import {API_URL} from '../../constants';
+import {checkResponse} from '../../utils/checkResponse';
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
@@ -28,7 +29,7 @@ export const deleteIngredient = (id: string) => {
 export const loadIngredients = () => (dispatch: any) => {
     dispatch({ type: INGREDIENTS_LOADING });
     fetch(`${API_URL}/ingredients`)
-        .then(response => response.ok ? response.json() : Promise.reject(response.json()))
+        .then(checkResponse)
         .then(data => dispatch({ type: INGREDIENTS_SUCCESS, payload: data.data }))
         .catch(error => dispatch({ type: INGREDIENTS_ERROR, payload: 'Произошла ошибка, обновите страницу' }));
 }
