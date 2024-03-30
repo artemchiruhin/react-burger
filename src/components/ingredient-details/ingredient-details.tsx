@@ -1,12 +1,22 @@
-import React from 'react';
-import {IIngredient} from '../../interfaces/IIngredient';
+import React, {useEffect} from 'react';
 import styles from './ingredient-details.module.css';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useParams} from 'react-router-dom';
+import {IIngredient} from '../../interfaces/IIngredient';
+import {showIngredient} from '../../services/actions/ingredients';
 
-interface IngredientDetailsProps {}
+export const IngredientDetails = () => {
+    const { id } = useParams();
+    const { currentShowingIngredient: ingredient, ingredients } = useSelector((store: any) => store.ingredients);
+    const dispatch = useDispatch();
 
-export const IngredientDetails = ({}: IngredientDetailsProps) => {
-    const { currentShowingIngredient: ingredient } = useSelector((store: any) => store.ingredients);
+    useEffect(() => {
+        const foundIngredient = ingredients.find((item: IIngredient) => item._id === id);
+        dispatch(showIngredient(foundIngredient));
+    }, [dispatch, id, ingredients]);
+
+    if(!ingredient) return null;
+
     return (
         <div className={`${styles['content-wrapper']}`}>
             <div className={`${styles['image-wrapper']} pl-5 pr-5 mb-4`}>

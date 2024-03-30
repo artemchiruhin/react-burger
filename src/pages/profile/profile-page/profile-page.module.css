@@ -1,0 +1,21 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    grid-gap: 60px;
+    margin-top: 120px;
+}
+
+.menu-link {
+    display: flex;
+    padding: 12px 0;
+    text-decoration: none;
+    color: #8585AD;
+}
+
+.menu-link.active {
+    color: #fff;
+}
+
+.menu-text {
+    color: #8585AD;
+}

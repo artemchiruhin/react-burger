@@ -47,7 +47,6 @@ export const BurgerIngredients = ({}: BurgerIngredientsProps) => {
     useEffect(() => {
         // @ts-ignore
         observer.current = new IntersectionObserver((entries) => {
-            console.log(entries)
             const visibleSection = entries.find((entry) => entry.isIntersecting)?.target;
             if (visibleSection) {
                 setCurrentBlock(visibleSection.id);

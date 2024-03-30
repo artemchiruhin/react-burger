@@ -26,3 +26,12 @@
     flex-direction: column;
     gap: 8px;
 }
+
+.page-wrapper {
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

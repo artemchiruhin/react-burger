@@ -1,8 +1,14 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
+import {clsx} from 'clsx';
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './app-header.module.css';
+import {useAuth} from '../../utils/auth';
 
 export const AppHeader = () => {
+    // @ts-ignore
+    const { user } = useAuth();
+
     return (
         <header className={`${styles['header']} pt-4 pb-4`}>
             <div className="container">
@@ -10,10 +16,18 @@ export const AppHeader = () => {
                     <nav className={`${styles['header__navigation']}`} aria-label="Основная">
                         <ul className={`${styles['header__navigation-list']}`}>
                             <li className={`${styles['header__navigation-item']}`}>
-                                <a href="#" className={`${styles['header__navigation-link']} ${styles['header__navigation-link--active']} p-5`}>
-                                    <BurgerIcon type="primary" />
-                                    <span className={`${styles['header__navigation-link-text']} ml-2`}>Конструктор</span>
-                                </a>
+                                <NavLink to={'/'} className={({ isActive }) => {
+                                    return clsx(styles['header__navigation-link'], 'p-5', {
+                                        [styles['header__navigation-link--active']]: isActive,
+                                    });
+                                }}>
+                                    {({ isActive }) => (
+                                        <>
+                                            <BurgerIcon type={isActive ? "primary" : "secondary"}/>
+                                            <span className="ml-2">Конструктор</span>
+                                        </>
+                                    )}
+                                </NavLink>
                             </li>
                             <li className={`${styles['header__navigation-item']}`}>
                                 <a href="#" className={`${styles['header__navigation-link']} p-5`}>
@@ -27,10 +41,18 @@ export const AppHeader = () => {
                     <nav className={`${styles['header__navigation']} ${styles['header__navigation--additional']}`} aria-label="Дополнительная">
                         <ul className={`${styles['header__navigation-list']}`}>
                             <li className={`${styles['header__navigation-item']}`}>
-                                <a href="#" className={`${styles['header__navigation-link']} p-5`}>
-                                    <ProfileIcon type="secondary" />
-                                    <span className={`${styles['header__navigation-link-text']} ml-2`}>Личный кабинет</span>
-                                </a>
+                                <NavLink to={'/profile'} className={({ isActive }) => {
+                                    return clsx(styles['header__navigation-link'], 'p-5', {
+                                        [styles['header__navigation-link--active']]: isActive,
+                                    });
+                                }}>
+                                    {({ isActive }) => (
+                                        <>
+                                            <ProfileIcon type={isActive ? "primary" : "secondary"} />
+                                            <span className={`${styles['header__navigation-link-text']} ml-2`}>{ user?.name || 'Личный кабинет' }</span>
+                                        </>
+                                    )}
+                                </NavLink>
                             </li>
                         </ul>
                     </nav>
