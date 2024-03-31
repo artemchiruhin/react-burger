@@ -3,13 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
 import {EmailInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Page} from '../../../components/page/page';
-import {
-    forgotPasswordRequestWasSuccessful, forgotPasswordRequestWasUnSuccessful,
-    makeForgotPasswordRequest,
-} from '../../../services/actions/forgotPassword';
-import {sendRecoveryPasswordLink} from '../../../utils/api';
-import {API_URL} from '../../../constants';
-import {checkResponse} from '../../../utils/checkResponse';
+import {sendRecoveryLink} from '../../../services/actions/forgotPassword';
 
 export const ForgotPasswordPage = () => {
     const [email, setEmail] = useState('');
@@ -23,15 +17,9 @@ export const ForgotPasswordPage = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(makeForgotPasswordRequest());
-        sendRecoveryPasswordLink(`${API_URL}/password-reset`, { email })
-            .then(checkResponse)
-            .then(() => {
-                dispatch(forgotPasswordRequestWasSuccessful());
-                localStorage.setItem('recoveryLinkWasSent', 'Y');
-                navigate('/reset-password');
-            })
-            .catch(() => dispatch(forgotPasswordRequestWasUnSuccessful()));
+        // @ts-ignore
+        dispatch(sendRecoveryLink({ email }));
+        navigate('/reset-password');
     }, [dispatch, email, navigate]);
 
     useEffect(() => {

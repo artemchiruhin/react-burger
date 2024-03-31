@@ -1,12 +1,9 @@
 import React, {useCallback} from 'react';
 import {NavLink, Outlet, useNavigate} from 'react-router-dom';
-import {Page} from '../../../components/page/page';
-import styles from './profile-page.module.css';
 import clsx from 'clsx';
+import {Page} from '../../../components/page/page';
 import {useAuth} from '../../../utils/auth';
-import {logoutRequest} from '../../../utils/api';
-import {API_URL} from '../../../constants';
-import {checkResponse} from '../../../utils/checkResponse';
+import styles from './profile-page.module.css';
 
 export const ProfilePage = () => {
     // @ts-ignore

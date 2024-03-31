@@ -3,14 +3,7 @@ import {useDispatch} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
 import {Button, PasswordInput, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Page} from '../../../components/page/page';
-import {
-    makeResetPasswordRequest,
-    resetPasswordRequestWasSuccessful,
-    resetPasswordRequestWasUnSuccessful
-} from '../../../services/actions/resetPassword';
-import {resetPassword} from '../../../utils/api';
-import {API_URL} from '../../../constants';
-import {checkResponse} from '../../../utils/checkResponse';
+import {resetPassword} from '../../../services/actions/resetPassword';
 
 export const ResetPasswordPage = () => {
     const [password, setPassword] = useState('');
@@ -28,15 +21,9 @@ export const ResetPasswordPage = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(makeResetPasswordRequest());
-        resetPassword(`${API_URL}/password-reset/reset`, { password, token: code })
-            .then(checkResponse)
-            .then(() => {
-                dispatch(resetPasswordRequestWasSuccessful());
-                localStorage.removeItem('recoveryLinkWasSent');
-                navigate('/login');
-            })
-            .catch(() => dispatch(resetPasswordRequestWasUnSuccessful()));
+        // @ts-ignore
+        dispatch(resetPassword({ password, code }))
+        navigate('/login');
     }, [code, dispatch, navigate, password]);
 
     useEffect(() => {

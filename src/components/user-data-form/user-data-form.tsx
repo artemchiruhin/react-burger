@@ -1,17 +1,15 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {Input, EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './user-data-form.module.css';
-import {editDataWasSuccessful, editDataWasUnSuccessful, makeEditDataRequest} from '../../services/actions/user';
-import {editUserDataRequest} from '../../utils/api';
-import {API_URL} from '../../constants';
+import {editUserData} from '../../services/actions/user';
 import {useAuth} from '../../utils/auth';
+import styles from './user-data-form.module.css';
 
 export const UserDataForm = () => {
     const dispatch = useDispatch();
 
     // @ts-ignore
-    const { user, setUser } = useAuth();
+    const { user, updateUser } = useAuth();
 
     const [name, setName] = useState<string>(user?.name || '');
     const [email, setEmail] = useState<string>(user?.email || '');
@@ -19,22 +17,9 @@ export const UserDataForm = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(makeEditDataRequest());
-        const newUserData = { name, email };
-        if(password) {
-            // @ts-ignore
-            newUserData.password = password;
-        }
-        editUserDataRequest(`${API_URL}/auth/user`, newUserData)
-            .then(() => {
-                dispatch(editDataWasSuccessful());
-                setUser({
-                    ...user,
-                    name,
-                })
-            })
-            .catch((error) => dispatch(editDataWasUnSuccessful(error)));
-    }, [dispatch, email, name, password, setUser, user]);
+        // @ts-ignore
+        dispatch(editUserData({ name, email, password, updateUser }));
+    }, [dispatch, email, name, password, updateUser]);
 
     useEffect(() => {
         setEmail(user?.email || '');

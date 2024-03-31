@@ -87,7 +87,7 @@ export const sendRecoveryPasswordLink = async (url: string, data: any) => {
     });
 }
 
-export const resetPassword = async (url: string, data: any) => {
+export const resetPasswordRequest = async (url: string, data: any) => {
     return await fetch(url, {
         method: 'POST',
         headers: {

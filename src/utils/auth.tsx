@@ -1,5 +1,5 @@
-import {useContext, useState, createContext, ReactNode, useEffect} from 'react';
-import {getUserRequest, loginRequest, logoutRequest, registerUserRequest} from './api';
+import {useContext, useState, createContext, ReactNode} from 'react';
+import {editUserDataRequest, getUserRequest, loginRequest, logoutRequest, registerUserRequest} from './api';
 import {API_URL} from '../constants';
 import {checkResponse} from './checkResponse';
 
@@ -46,7 +46,7 @@ export function useProvideAuth() {
     }
 
     const signUp = async (url: string, data: any) => {
-        const responseData = await registerUserRequest(`${API_URL}/auth/register`, data)
+        const responseData = await registerUserRequest(url, data)
             .then(checkResponse)
             .then(responseData => responseData);
 
@@ -56,10 +56,6 @@ export function useProvideAuth() {
             localStorage.setItem('refreshToken', responseData.refreshToken);
         }
     }
-
-    /*useEffect(() => {
-        void getUser();
-    }, []);*/
 
     const signOut = async () => {
         return await logoutRequest(`${API_URL}/auth/logout`, { token: localStorage.getItem('refreshToken') })
@@ -71,12 +67,23 @@ export function useProvideAuth() {
             });
     };
 
+    const updateUser = async (newUserData: any) => {
+        console.log(newUserData)
+        return await editUserDataRequest(`${API_URL}/auth/user`, newUserData)
+            .then(() => {
+                setUser({
+                    ...newUserData,
+                })
+            });
+    }
+
     return {
         user,
         setUser,
         getUser,
         signIn,
         signUp,
-        signOut
+        signOut,
+        updateUser,
     };
 }

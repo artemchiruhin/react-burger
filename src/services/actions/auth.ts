@@ -1,3 +1,5 @@
+import {API_URL} from '../../constants';
+
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_ERROR = 'AUTH_ERROR';
@@ -15,21 +17,18 @@ export const authWasUnSuccessful = (errorMassage?: string) => ({
     payload: errorMassage,
 });
 
-/*export const authorizeUser = ({ email, password }: IAuthorizeUser) => (dispatch: any) => {
-    dispatch({ type: AUTH_REQUEST });
-    fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email,
-            password,
-        }),
-    })
-        .then(checkResponse)
-        .then(data => {
-            dispatch({ type: AUTH_SUCCESS });
-        })
-        .catch(error => dispatch({ type: AUTH_ERROR, payload: 'При авторизации прозошла ошибка'}));
-}*/
+interface IAuthorizeUser {
+    email: string,
+    password: string,
+    signIn: Function,
+}
+
+export const authorizeUser = ({ email, password, signIn }: IAuthorizeUser) => (dispatch: any) => {
+    dispatch(makeAuthRequest());
+    signIn(`${API_URL}/auth/login`, {
+        email,
+        password
+    }).then(() => {
+        dispatch(authWasSuccessful());
+    }).catch((error: any) => dispatch(authWasUnSuccessful('При авторизации произошла ошибка')));
+}

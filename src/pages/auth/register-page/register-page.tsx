@@ -3,13 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
 import {Input, EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Page} from '../../../components/page/page';
-import {
-    makeRegisterRequest,
-    registerRequestWasSuccessful,
-    registerRequestWasUnSuccessful
-} from '../../../services/actions/register';
+import {registerUser} from '../../../services/actions/register';
 import {useAuth} from '../../../utils/auth';
-import {API_URL} from '../../../constants';
 
 export const RegisterPage = () => {
     const [name, setName] = useState('');
@@ -35,14 +30,10 @@ export const RegisterPage = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(makeRegisterRequest());
-        signUp(`${API_URL}/auth/register`, {
-            name, email, password
-        }).then(() => {
-            dispatch(registerRequestWasSuccessful());
-            navigate('/');
-        }).catch(() => dispatch(registerRequestWasUnSuccessful()));
-    }, [dispatch, email, name, password, navigate]);
+        // @ts-ignore
+        dispatch(registerUser({ email, name, password, signUp }));
+        navigate('/');
+    }, [dispatch, email, name, password, signUp, navigate]);
 
     return (
         <Page>

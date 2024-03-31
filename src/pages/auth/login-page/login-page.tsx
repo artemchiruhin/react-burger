@@ -3,13 +3,8 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Page} from '../../../components/page/page';
-import {
-    authWasSuccessful,
-    authWasUnSuccessful,
-    makeAuthRequest
-} from '../../../services/actions/auth';
+import {authorizeUser} from '../../../services/actions/auth';
 import { useAuth } from '../../../utils/auth';
-import {API_URL} from '../../../constants';
 
 export const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -30,14 +25,9 @@ export const LoginPage = () => {
     
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(makeAuthRequest());
-        signIn(`${API_URL}/auth/login`, {
-            email,
-            password
-        }).then(() => {
-            dispatch(authWasSuccessful());
-            navigate('/');
-        }).catch((error: any) => authWasUnSuccessful('При авторизации произошла ошибка'));
+        // @ts-ignore
+        dispatch(authorizeUser({ email, password, signIn }));
+        navigate('/');
     }, [dispatch, email, navigate, password, signIn]);
 
     return (

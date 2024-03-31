@@ -1,3 +1,7 @@
+import {API_URL} from '../../constants';
+import {checkResponse} from '../../utils/checkResponse';
+import {resetPasswordRequest} from '../../utils/api';
+
 export const RESET_PASSWORD_LOADING = 'RESET_PASSWORD_LOADING';
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const RESET_PASSWORD_ERROR = 'RESET_PASSWORD_ERROR';
@@ -13,27 +17,19 @@ export const resetPasswordRequestWasSuccessful = () => ({
 export const resetPasswordRequestWasUnSuccessful = () => ({
     type: RESET_PASSWORD_ERROR,
 });
-/*interface IResetPassword {
+
+interface IResetPassword {
     password: string,
     code: string,
 }
 
 export const resetPassword = ({ password, code }: IResetPassword) => (dispatch: any) => {
-    dispatch({ type: RESET_PASSWORD_LOADING });
-    fetch(`${API_URL}/password-reset/reset`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            password,
-            token: code,
-        }),
-    })
+    dispatch(makeResetPasswordRequest());
+    resetPasswordRequest(`${API_URL}/password-reset/reset`, { password, token: code })
         .then(checkResponse)
-        .then(data => {
-            dispatch({ type: RESET_PASSWORD_SUCCESS });
+        .then(() => {
+            dispatch(resetPasswordRequestWasSuccessful());
             localStorage.removeItem('recoveryLinkWasSent');
         })
-        .catch(error => dispatch({ type: RESET_PASSWORD_ERROR, payload: 'При отправке кода прозошла ошибка'}));
-}*/
+        .catch(() => dispatch(resetPasswordRequestWasUnSuccessful()));
+}
