@@ -1,27 +1,24 @@
-import React, {useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {useDrag} from 'react-dnd';
+import {Link, useLocation} from 'react-router-dom';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {IIngredient} from '../../interfaces/IIngredient';
-import {ModalOverlay} from '../modal-overlay/modal-overlay';
-import {Modal} from '../modal/modal';
-import {IngredientDetails} from '../ingredient-details/ingredient-details';
 import {showIngredient} from '../../services/actions/ingredients';
 import styles from './ingredient-card.module.css';
-import {useDrag} from 'react-dnd';
 
 interface IngredientCardProps extends React.HTMLAttributes<HTMLDivElement> {
     ingredient: IIngredient,
 }
 
-export const IngredientCard = ({ ingredient, onClick, ...props }: IngredientCardProps) => {
-    const [isModalShown, setIsModalShown] = useState<boolean>(false);
+export const IngredientCard = ({ ingredient, ...props }: IngredientCardProps) => {
     const { addedIngredients, chosenBun }: {addedIngredients: IIngredient[], chosenBun: IIngredient} = useSelector((store: any) => store.ingredients);
-    const dispatch = useDispatch();
+    const location = useLocation();
 
     const count = useMemo(() => {
         if(ingredient.type === 'bun' && ingredient._id === chosenBun?._id) return 1;
         return addedIngredients.filter(item => item._id === ingredient._id).length;
-    }, [addedIngredients, chosenBun]);
+    }, [addedIngredients, chosenBun, ingredient._id, ingredient.type]);
 
     const [, drag] = useDrag(() => ({
         type: 'addingIngredient',
@@ -31,30 +28,14 @@ export const IngredientCard = ({ ingredient, onClick, ...props }: IngredientCard
         }),
     }));
 
-    const onClickIngredient = (event: React.MouseEvent<HTMLDivElement>) => {
-        setIsModalShown(true);
-        dispatch(showIngredient(ingredient));
-        onClick && onClick(event);
-    }
-
-    const onCloseModal = () => {
-        setIsModalShown(false);
-        dispatch(showIngredient(null));
-    }
-
     return (
-        <>
-            { isModalShown &&
-                <Modal onClose={onCloseModal}>
-                    <ModalOverlay onClick={onCloseModal} />
-                    <Modal.Content className='pl-10 pr-10 pt-10 pb-15'>
-                        <Modal.Title className='text text_type_main-large'>Детали ингредиента</Modal.Title>
-                        <Modal.CloseButton onClick={onCloseModal} />
-                        <IngredientDetails />
-                    </Modal.Content>
-                </Modal>
-            }
-            <div className={`${styles['wrapper']}`} {...props} onClick={onClickIngredient} ref={drag}>
+        <Link
+            key={ingredient._id}
+            to={`/ingredients/${ingredient._id}`}
+            state={{ background: location }}
+            className={`${styles['link']}`}
+        >
+            <div className={`${styles['wrapper']}`} {...props} ref={drag}>
                 <div className={`${styles['image-wrapper']} pl-4 pr-4 mb-1`}>
                     <img src={ingredient.image} className="image" alt="Ингредиент"/>
                 </div>
@@ -65,6 +46,6 @@ export const IngredientCard = ({ ingredient, onClick, ...props }: IngredientCard
                 <div className={`${styles['name']} text text_type_main-default`}>{ingredient.name}</div>
                 { !!count && <span className={`${styles['count']}`}>{count}</span> }
             </div>
-        </>
+        </Link>
     );
 }

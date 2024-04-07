@@ -1,0 +1,28 @@
+.page-wrapper {
+    max-width: 640px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 120px auto 0 auto;
+}
+
+.image-wrapper {
+    max-width: 480px;
+    width: 100%;
+    composes: image-wrapper from '../../components/ingredient-details/ingredient-details.module.css';
+}
+
+.image {
+    width: 100%;
+}
+
+.properties {
+    color: #8585AD;
+    text-align: center;
+    composes: ingredient-properties from '../../components/ingredient-details/ingredient-details.module.css';
+}
+
+.property {
+    composes: ingredient-property from '../../components/ingredient-details/ingredient-details.module.css';
+}
