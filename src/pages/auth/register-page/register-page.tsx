@@ -13,7 +13,6 @@ export const RegisterPage = () => {
     const dispatch = useDispatch();
     const { isLoading } = useSelector((store: any) => store.register);
     const navigate = useNavigate();
-    // @ts-ignore
     const { signUp } = useAuth();
 
     const onChangeName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {

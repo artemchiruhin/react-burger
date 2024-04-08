@@ -6,7 +6,6 @@ import styles from './app-header.module.css';
 import {useAuth} from '../../utils/auth';
 
 export const AppHeader = () => {
-    // @ts-ignore
     const { user } = useAuth();
 
     return (

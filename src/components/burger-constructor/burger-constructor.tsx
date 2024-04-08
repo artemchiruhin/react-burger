@@ -17,7 +17,6 @@ export const BurgerConstructor = () => {
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
     const { addedIngredients, chosenBun }: { addedIngredients: IIngredient[], chosenBun: IIngredient } = useSelector((store: any) => store.ingredients);
     const dispatch = useDispatch();
-    // @ts-ignore
     const { user } = useAuth();
     const navigate = useNavigate();
 

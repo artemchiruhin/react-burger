@@ -8,7 +8,6 @@ import styles from './user-data-form.module.css';
 export const UserDataForm = () => {
     const dispatch = useDispatch();
 
-    // @ts-ignore
     const { user, updateUser } = useAuth();
 
     const [name, setName] = useState<string>(user?.name || '');

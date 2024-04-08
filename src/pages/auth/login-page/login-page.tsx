@@ -12,7 +12,6 @@ export const LoginPage = () => {
     const dispatch = useDispatch();
     const { isLoading } = useSelector((store: any) => store.auth);
     const navigate = useNavigate();
-    // @ts-ignore
     const { signIn } = useAuth();
 
     const onChangeEmail = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {

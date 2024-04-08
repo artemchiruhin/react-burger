@@ -2,8 +2,27 @@ import {useContext, useState, createContext, ReactNode} from 'react';
 import {editUserDataRequest, getUserRequest, loginRequest, logoutRequest, registerUserRequest} from './api';
 import {API_URL} from '../constants';
 import {checkResponse} from './checkResponse';
+import {IUser} from '../interfaces/IUser';
 
-const AuthContext = createContext(undefined);
+interface IAuthContext {
+    user?: IUser,
+    getUser: Function,
+    setUser: Function,
+    signIn: Function,
+    signUp: Function,
+    signOut: Function,
+    updateUser: Function,
+}
+
+const AuthContext = createContext<IAuthContext>({
+    user: undefined,
+    setUser: () => {},
+    getUser: () => {},
+    signIn: () => {},
+    signUp: () => {},
+    signOut: () => {},
+    updateUser: () => {},
+});
 
 interface IProvideAuth {
     children: ReactNode,
@@ -68,7 +87,6 @@ export function useProvideAuth() {
     };
 
     const updateUser = async (newUserData: any) => {
-        console.log(newUserData)
         return await editUserDataRequest(`${API_URL}/auth/user`, newUserData)
             .then(() => {
                 setUser({

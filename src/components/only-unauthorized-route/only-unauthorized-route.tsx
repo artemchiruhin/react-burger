@@ -7,7 +7,6 @@ interface OnlyAuthorizedRouteProps {
 }
 
 export const OnlyUnauthorizedRoute = ({ element, redirectTo }: OnlyAuthorizedRouteProps) => {
-    // @ts-ignore
     const { user } = useAuth();
     return user ? <Navigate to={redirectTo} replace /> : element;
 }

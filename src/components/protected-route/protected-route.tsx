@@ -6,12 +6,11 @@ interface ProtectedRouteElementProps {
     element: any,
 }
 export const ProtectedRouteElement = ({ element }: ProtectedRouteElementProps) => {
-    // @ts-ignore
-    let { getUser, ...auth } = useAuth();
+    let auth = useAuth();
     const [isUserLoaded, setUserLoaded] = useState(false);
 
     const init = async () => {
-        await getUser();
+        await auth.getUser();
         setUserLoaded(true);
     };
 
