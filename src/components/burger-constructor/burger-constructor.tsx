@@ -26,8 +26,7 @@ export const BurgerConstructor = () => {
             return;
         }
         setIsModalShown(true);
-        // @ts-ignore
-        dispatch(createOrder({ ingredients: [...addedIngredients.map(ingredient => ingredient._id), chosenBun._id] }));
+        dispatch(createOrder({ ingredients: [...addedIngredients.map(ingredient => ingredient._id), chosenBun._id] }) as any);
     }
 
     const onCloseModal = () => {

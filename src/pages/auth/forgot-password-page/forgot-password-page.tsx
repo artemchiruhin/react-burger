@@ -17,8 +17,7 @@ export const ForgotPasswordPage = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // @ts-ignore
-        dispatch(sendRecoveryLink({ email }));
+        dispatch(sendRecoveryLink({ email }) as any);
         navigate('/reset-password');
     }, [dispatch, email, navigate]);
 

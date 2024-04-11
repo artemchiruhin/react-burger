@@ -24,9 +24,8 @@ interface IEditUserData {
 
 export const editUserData = ({ name, email, password, updateUser }: IEditUserData) => (dispatch: any) => {
     dispatch(makeEditDataRequest());
-    const newUserData = { name, email };
+    const newUserData: { name: string, email: string, password?: string } = { name, email };
     if(password) {
-        // @ts-ignore
         newUserData.password = password;
     }
     updateUser(newUserData)

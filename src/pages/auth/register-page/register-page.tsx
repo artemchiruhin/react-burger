@@ -29,8 +29,7 @@ export const RegisterPage = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // @ts-ignore
-        dispatch(registerUser({ email, name, password, signUp }));
+        dispatch(registerUser({ email, name, password, signUp }) as any);
         navigate('/');
     }, [dispatch, email, name, password, signUp, navigate]);
 

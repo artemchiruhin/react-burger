@@ -22,8 +22,7 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // @ts-ignore
-        dispatch(loadIngredients());
+        dispatch(loadIngredients() as any);
     }, [dispatch]);
 
     return (
