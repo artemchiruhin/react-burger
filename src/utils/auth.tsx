@@ -1,5 +1,12 @@
 import {useContext, useState, createContext, ReactNode} from 'react';
-import {editUserDataRequest, getUserRequest, loginRequest, logoutRequest, registerUserRequest} from './api';
+import {
+    editUserDataRequest,
+    getUserRequest, IEditUserRequestData,
+    ILoginRequestData, IRegisterUserRequestData,
+    loginRequest,
+    logoutRequest,
+    registerUserRequest
+} from './api';
 import {API_URL} from '../constants';
 import {checkResponse} from './checkResponse';
 import {IUser} from '../interfaces/IUser';
@@ -52,7 +59,7 @@ export function useProvideAuth() {
             }).catch(() => setUser(null));
     }
 
-    const signIn = async (url: string, user: any) => {
+    const signIn = async (url: string, user: ILoginRequestData) => {
         const data = await loginRequest(url, user)
             .then(response => checkResponse<TSignInResponse>(response))
             .then(data => data);
@@ -64,7 +71,7 @@ export function useProvideAuth() {
         }
     }
 
-    const signUp = async (url: string, data: any) => {
+    const signUp = async (url: string, data: IRegisterUserRequestData) => {
         const responseData = await registerUserRequest(url, data)
             .then(response => checkResponse<TSignUpResponse>(response))
             .then(responseData => responseData);
@@ -88,7 +95,7 @@ export function useProvideAuth() {
             });
     };
 
-    const updateUser = async (newUserData: any) => {
+    const updateUser = async (newUserData: IEditUserRequestData) => {
         return await editUserDataRequest(`${API_URL}/auth/user`, newUserData)
             .then(() => {
                 setUser({

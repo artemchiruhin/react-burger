@@ -40,7 +40,7 @@ export const fetchWithRefresh = async <T>(url: RequestInfo, options: RequestInit
     }
 }
 
-interface IRegisterUserRequestData {
+export interface IRegisterUserRequestData {
     email: string,
     password: string,
     name: string,
@@ -55,7 +55,7 @@ export const registerUserRequest = async (url: string, data: IRegisterUserReques
     });
 }
 
-interface ILoginRequestData {
+export interface ILoginRequestData {
     email: string,
     password: string,
 }
@@ -116,7 +116,7 @@ export const resetPasswordRequest = async (url: string, data: IResetPasswordRequ
     });
 }
 
-interface IEditUserRequestData {
+export interface IEditUserRequestData {
     email: string,
     name: string,
     password?: string,
