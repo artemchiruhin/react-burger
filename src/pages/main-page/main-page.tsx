@@ -1,11 +1,11 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
 import {Page} from '../../components/page/page';
 import {BurgerIngredients} from '../../components/burger-ingredients/burger-ingredients';
 import {BurgerConstructor} from '../../components/burger-constructor/burger-constructor';
+import {useSelector} from '../../hooks/store';
 
 export const MainPage = () => {
-    const loading = useSelector((store: any) => store.ingredients.isLoading);
+    const loading = useSelector((store) => store.ingredients.isLoading);
     
     return (
         <Page containerClass="main-container">

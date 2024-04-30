@@ -1,17 +1,17 @@
 import React, {useMemo} from 'react';
-import {useSelector} from 'react-redux';
 import {useDrag} from 'react-dnd';
 import {Link, useLocation} from 'react-router-dom';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {IIngredient} from '../../interfaces/IIngredient';
 import styles from './ingredient-card.module.css';
+import {useSelector} from '../../hooks/store';
 
 interface IngredientCardProps extends React.HTMLAttributes<HTMLDivElement> {
     ingredient: IIngredient,
 }
 
 export const IngredientCard = ({ ingredient, ...props }: IngredientCardProps) => {
-    const { addedIngredients, chosenBun }: {addedIngredients: IIngredient[], chosenBun: IIngredient} = useSelector((store: any) => store.ingredients);
+    const { addedIngredients, chosenBun } = useSelector((store) => store.ingredients);
     const location = useLocation();
 
     const count = useMemo(() => {

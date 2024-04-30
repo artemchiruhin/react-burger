@@ -1,16 +1,16 @@
 import React, {useCallback, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
 import {EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Page} from '../../../components/page/page';
 import {authorizeUser} from '../../../services/actions/auth';
 import { useAuth } from '../../../utils/auth';
+import {useSelector, useDispatch} from '../../../hooks/store';
 
 export const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    const { isLoading } = useSelector((store: any) => store.auth);
+    const { isLoading } = useSelector((store) => store.auth);
     const navigate = useNavigate();
     const { signIn } = useAuth();
 
@@ -24,7 +24,7 @@ export const LoginPage = () => {
     
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(authorizeUser({ email, password, signIn }) as any);
+        dispatch(authorizeUser({ email, password, signIn }));
         navigate('/');
     }, [dispatch, email, navigate, password, signIn]);
 

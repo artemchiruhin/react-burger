@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
 import {Route, Routes, useLocation, useNavigate} from 'react-router-dom';
-import {ForgotPasswordPage, LoginPage, MainPage, RegisterPage, ResetPasswordPage, IngredientPage, ProfilePage} from './pages';
+import {ForgotPasswordPage, LoginPage, MainPage, RegisterPage, ResetPasswordPage, IngredientPage, ProfilePage, FeedPage, OrderPage} from './pages';
 import {ModalOverlay} from './components/modal-overlay/modal-overlay';
 import {Modal} from './components/modal/modal';
 import {IngredientDetails} from './components/ingredient-details/ingredient-details';
@@ -9,6 +8,9 @@ import {loadIngredients} from './services/actions/ingredients';
 import {ProtectedRouteElement} from './components/protected-route/protected-route';
 import {OnlyUnauthorizedRoute} from './components/only-unauthorized-route/only-unauthorized-route';
 import {UserDataForm} from './components/user-data-form/user-data-form';
+import {useDispatch} from './hooks/store';
+import {Order} from './components/order/order';
+import {UserFeed} from './components/user-feed/user-feed';
 
 function App() {
     const location = useLocation();
@@ -22,7 +24,7 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(loadIngredients() as any);
+        dispatch(loadIngredients());
     }, [dispatch]);
 
     return (
@@ -35,8 +37,11 @@ function App() {
                 <Route path={'/reset-password'} element={<OnlyUnauthorizedRoute element={<ResetPasswordPage />} redirectTo={'/'} />} />
                 <Route path={'/profile'} element={<ProtectedRouteElement element={<ProfilePage />} />}>
                     <Route path={''} element={<UserDataForm />} />
+                    <Route path={'orders'} element={<UserFeed />} />
                 </Route>
                 <Route path={'/ingredients/:id'} element={<IngredientPage />} />
+                <Route path={'/feed'} element={<FeedPage />} />
+                <Route path={'/feed/:number'} element={<OrderPage />} />
             </Routes>
 
             {background && (
@@ -50,6 +55,18 @@ function App() {
                                     <Modal.Title className='text text_type_main-large'>Детали ингредиента</Modal.Title>
                                     <Modal.CloseButton onClick={onCloseModal} />
                                     <IngredientDetails />
+                                </Modal.Content>
+                            </Modal>
+                        }
+                    />
+                    <Route
+                        path='/feed/:number'
+                        element={
+                            <Modal onClose={onCloseModal}>
+                                <ModalOverlay onClick={onCloseModal} />
+                                <Modal.Content className='pl-10 pr-10 pt-10 pb-15'>
+                                    <Modal.CloseButton onClick={onCloseModal} />
+                                    <Order />
                                 </Modal.Content>
                             </Modal>
                         }

@@ -1,18 +1,24 @@
 import {IOrder} from '../../interfaces/IOrder';
-import {CREATE_ORDER_ERROR, CREATE_ORDER_LOADING, CREATE_ORDER_SUCCESS} from '../actions/order';
+import {
+    CREATE_ORDER_ERROR,
+    CREATE_ORDER_LOADING,
+    CREATE_ORDER_SUCCESS,
+    TOrderActions
+} from '../actions/order';
+import {Nullable} from '../../types/Nullable';
 
 interface IInitialState {
-    name: string,
-    order: IOrder,
-    success: boolean,
+    isLoading: boolean,
+    order?: IOrder,
+    error: Nullable<string>,
 }
 
-const initialState = {
+const initialState: IInitialState = {
     isLoading: false,
     error: null,
 }
 
-export const orderReducer = (state = initialState, action: any) => {
+export const orderReducer = (state = initialState, action: TOrderActions) => {
     switch (action.type) {
         case CREATE_ORDER_LOADING:
             return {
@@ -30,7 +36,7 @@ export const orderReducer = (state = initialState, action: any) => {
                 ...state,
                 isLoading: false,
                 error: null,
-                order: action.payload.order,
+                order: action.payload,
             }
         default:
             return state;

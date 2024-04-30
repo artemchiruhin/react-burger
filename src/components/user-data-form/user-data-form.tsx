@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
 import {Input, EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {editUserData} from '../../services/actions/user';
 import {useAuth} from '../../utils/auth';
+import {useDispatch} from '../../hooks/store';
 import styles from './user-data-form.module.css';
 
 export const UserDataForm = () => {
@@ -16,7 +16,7 @@ export const UserDataForm = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(editUserData({ name, email, password, updateUser }) as any);
+        dispatch(editUserData({ name, email, password, updateUser }));
     }, [dispatch, email, name, password, updateUser]);
 
     useEffect(() => {

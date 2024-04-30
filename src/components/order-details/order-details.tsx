@@ -1,10 +1,10 @@
 import React from 'react';
 import doneImage from '../../images/done.png';
+import {useSelector} from '../../hooks/store';
 import styles from './order-details.module.css';
-import {useSelector} from 'react-redux';
 
 export const OrderDetails = () => {
-    const { isLoading, order } = useSelector((store: any) => store.order);
+    const { isLoading, order } = useSelector((store) => store.order);
 
     if(isLoading) {
         return (
@@ -12,6 +12,10 @@ export const OrderDetails = () => {
                 <div className="text text_type_main-medium">Загрузка</div>
             </div>
         );
+    }
+
+    if(!order) {
+        return null;
     }
 
     return (

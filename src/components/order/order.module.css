@@ -1,0 +1,42 @@
+.ingredient {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    grid-gap: 16px;
+    align-items: center;
+}
+
+.ingredient-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+}
+
+.ingredient-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ingredient-list {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.sum {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ingredient-sum {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

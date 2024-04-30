@@ -1,20 +1,30 @@
 import {API_URL} from '../../constants';
 import {checkResponse} from '../../utils/checkResponse';
 import {resetPasswordRequest} from '../../utils/api';
+import {AppDispatch} from '../types';
 
-export const RESET_PASSWORD_LOADING = 'RESET_PASSWORD_LOADING';
-export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
-export const RESET_PASSWORD_ERROR = 'RESET_PASSWORD_ERROR';
+export const RESET_PASSWORD_LOADING: 'RESET_PASSWORD_LOADING' = 'RESET_PASSWORD_LOADING';
+export const RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS' = 'RESET_PASSWORD_SUCCESS';
+export const RESET_PASSWORD_ERROR: 'RESET_PASSWORD_ERROR' = 'RESET_PASSWORD_ERROR';
 
-export const makeResetPasswordRequest = () => ({
+export interface IMakePasswordRequest {
+    readonly type: typeof RESET_PASSWORD_LOADING,
+}
+export const makeResetPasswordRequest = (): IMakePasswordRequest => ({
     type: RESET_PASSWORD_LOADING,
 });
 
-export const resetPasswordRequestWasSuccessful = () => ({
+export interface IResetPasswordRequestWasSuccessful {
+    readonly type: typeof RESET_PASSWORD_SUCCESS,
+}
+export const resetPasswordRequestWasSuccessful = (): IResetPasswordRequestWasSuccessful => ({
     type: RESET_PASSWORD_SUCCESS,
 });
 
-export const resetPasswordRequestWasUnSuccessful = () => ({
+export interface IResetPasswordRequestWasUnSuccessful {
+    readonly type: typeof RESET_PASSWORD_ERROR,
+}
+export const resetPasswordRequestWasUnSuccessful = (): IResetPasswordRequestWasUnSuccessful => ({
     type: RESET_PASSWORD_ERROR,
 });
 
@@ -23,7 +33,7 @@ interface IResetPassword {
     code: string,
 }
 
-export const resetPassword = ({ password, code }: IResetPassword) => (dispatch: any) => {
+export const resetPassword = ({ password, code }: IResetPassword) => (dispatch: AppDispatch) => {
     dispatch(makeResetPasswordRequest());
     resetPasswordRequest(`${API_URL}/password-reset/reset`, { password, token: code })
         .then(checkResponse)
@@ -33,3 +43,8 @@ export const resetPassword = ({ password, code }: IResetPassword) => (dispatch: 
         })
         .catch(() => dispatch(resetPasswordRequestWasUnSuccessful()));
 }
+
+export type TResetPasswordActions =
+    | IMakePasswordRequest
+    | IResetPasswordRequestWasSuccessful
+    | IResetPasswordRequestWasUnSuccessful;

@@ -5,7 +5,7 @@ import {
     INGREDIENTS_LOADING,
     INGREDIENTS_SUCCESS,
     ADD_INGREDIENT,
-    DELETE_INGREDIENT, CHOOSE_BUN, SHOW_INGREDIENT, SORT_INGREDIENTS
+    DELETE_INGREDIENT, CHOOSE_BUN, SHOW_INGREDIENT, SORT_INGREDIENTS, TIngredientsActions
 } from '../actions/ingredients';
 
 interface IInitialState {
@@ -26,7 +26,7 @@ const initialState: IInitialState = {
     currentShowingIngredient: null,
 }
 
-export const ingredientsReducer = (state = initialState, action: any) => {
+export const ingredientsReducer = (state = initialState, action: TIngredientsActions) => {
     switch (action.type) {
         case ADD_INGREDIENT:
             return {

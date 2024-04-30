@@ -1,5 +1,6 @@
 import {IIngredient} from '../interfaces/IIngredient';
 import {IUser} from '../interfaces/IUser';
+import {IOrder} from '../interfaces/IOrder';
 
 export type TServerResponse<T> = {
     success: boolean,
@@ -28,4 +29,13 @@ export type TSignUpResponse = TServerResponse<{
     user: IUser;
     refreshToken: string;
     accessToken: string;
+}>;
+
+export type TCreateOrderResponse = TServerResponse<{
+    name: string,
+    order: IOrder,
+}>;
+
+export type TGetOrderResponse = TServerResponse<{
+    orders: IOrder[],
 }>;
