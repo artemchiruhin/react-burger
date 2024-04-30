@@ -12,7 +12,6 @@ export const LoginPage = () => {
     const dispatch = useDispatch();
     const { isLoading } = useSelector((store: any) => store.auth);
     const navigate = useNavigate();
-    // @ts-ignore
     const { signIn } = useAuth();
 
     const onChangeEmail = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,8 +24,7 @@ export const LoginPage = () => {
     
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // @ts-ignore
-        dispatch(authorizeUser({ email, password, signIn }));
+        dispatch(authorizeUser({ email, password, signIn }) as any);
         navigate('/');
     }, [dispatch, email, navigate, password, signIn]);
 

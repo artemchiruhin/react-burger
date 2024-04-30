@@ -17,7 +17,6 @@ export const BurgerConstructor = () => {
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
     const { addedIngredients, chosenBun }: { addedIngredients: IIngredient[], chosenBun: IIngredient } = useSelector((store: any) => store.ingredients);
     const dispatch = useDispatch();
-    // @ts-ignore
     const { user } = useAuth();
     const navigate = useNavigate();
 
@@ -27,8 +26,7 @@ export const BurgerConstructor = () => {
             return;
         }
         setIsModalShown(true);
-        // @ts-ignore
-        dispatch(createOrder({ ingredients: [...addedIngredients.map(ingredient => ingredient._id), chosenBun._id] }));
+        dispatch(createOrder({ ingredients: [...addedIngredients.map(ingredient => ingredient._id), chosenBun._id] }) as any);
     }
 
     const onCloseModal = () => {

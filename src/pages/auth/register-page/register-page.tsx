@@ -13,7 +13,6 @@ export const RegisterPage = () => {
     const dispatch = useDispatch();
     const { isLoading } = useSelector((store: any) => store.register);
     const navigate = useNavigate();
-    // @ts-ignore
     const { signUp } = useAuth();
 
     const onChangeName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,8 +29,7 @@ export const RegisterPage = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // @ts-ignore
-        dispatch(registerUser({ email, name, password, signUp }));
+        dispatch(registerUser({ email, name, password, signUp }) as any);
         navigate('/');
     }, [dispatch, email, name, password, signUp, navigate]);
 

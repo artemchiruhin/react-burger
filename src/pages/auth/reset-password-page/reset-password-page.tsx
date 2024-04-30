@@ -21,8 +21,7 @@ export const ResetPasswordPage = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // @ts-ignore
-        dispatch(resetPassword({ password, code }))
+        dispatch(resetPassword({ password, code }) as any)
         navigate('/login');
     }, [code, dispatch, navigate, password]);
 

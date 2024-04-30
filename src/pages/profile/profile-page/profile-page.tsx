@@ -6,7 +6,6 @@ import {useAuth} from '../../../utils/auth';
 import styles from './profile-page.module.css';
 
 export const ProfilePage = () => {
-    // @ts-ignore
     const { signOut } = useAuth();
     const navigate = useNavigate();
     const onLogout = useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {

@@ -8,7 +8,6 @@ import styles from './user-data-form.module.css';
 export const UserDataForm = () => {
     const dispatch = useDispatch();
 
-    // @ts-ignore
     const { user, updateUser } = useAuth();
 
     const [name, setName] = useState<string>(user?.name || '');
@@ -17,8 +16,7 @@ export const UserDataForm = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // @ts-ignore
-        dispatch(editUserData({ name, email, password, updateUser }));
+        dispatch(editUserData({ name, email, password, updateUser }) as any);
     }, [dispatch, email, name, password, updateUser]);
 
     useEffect(() => {

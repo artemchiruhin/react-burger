@@ -7,11 +7,10 @@ import {IIngredient} from '../../interfaces/IIngredient';
 import {addIngredient, chooseBun} from '../../services/actions/ingredients';
 import styles from './burger-ingredients.module.css';
 
-interface BurgerIngredientsProps {}
 
-export const BurgerIngredients = ({}: BurgerIngredientsProps) => {
+export const BurgerIngredients = () => {
     const [currentBlock, setCurrentBlock] = useState('main');
-    const observer = useRef(null);
+    const observer = useRef<IntersectionObserver | null>(null);
     const { ingredients }: {ingredients: IIngredient[]} = useSelector((store: any) => store.ingredients);
     const dispatch = useDispatch();
 
@@ -45,7 +44,6 @@ export const BurgerIngredients = ({}: BurgerIngredientsProps) => {
     ];
 
     useEffect(() => {
-        // @ts-ignore
         observer.current = new IntersectionObserver((entries) => {
             const visibleSection = entries.find((entry) => entry.isIntersecting)?.target;
             if (visibleSection) {
@@ -56,13 +54,11 @@ export const BurgerIngredients = ({}: BurgerIngredientsProps) => {
         const sections = document.querySelectorAll('[data-section]');
 
         sections.forEach((section) => {
-            // @ts-ignore
             observer.current?.observe(section);
         });
 
         return () => {
             sections.forEach((section) => {
-                // @ts-ignore
                 observer.current?.unobserve(section);
             });
         };

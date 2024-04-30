@@ -1,9 +1,36 @@
 import {useContext, useState, createContext, ReactNode} from 'react';
-import {editUserDataRequest, getUserRequest, loginRequest, logoutRequest, registerUserRequest} from './api';
+import {
+    editUserDataRequest,
+    getUserRequest, IEditUserRequestData,
+    ILoginRequestData, IRegisterUserRequestData,
+    loginRequest,
+    logoutRequest,
+    registerUserRequest
+} from './api';
 import {API_URL} from '../constants';
 import {checkResponse} from './checkResponse';
+import {IUser} from '../interfaces/IUser';
+import {TGetUserResponse, TSignInResponse, TSignUpResponse} from '../types/Responses';
 
-const AuthContext = createContext(undefined);
+interface IAuthContext {
+    user: IUser | null,
+    getUser: Function,
+    setUser: Function,
+    signIn: Function,
+    signUp: Function,
+    signOut: Function,
+    updateUser: Function,
+}
+
+const AuthContext = createContext<IAuthContext>({
+    user: null,
+    setUser: () => {},
+    getUser: () => {},
+    signIn: () => {},
+    signUp: () => {},
+    signOut: () => {},
+    updateUser: () => {},
+});
 
 interface IProvideAuth {
     children: ReactNode,
@@ -11,7 +38,6 @@ interface IProvideAuth {
 export function ProvideAuth({ children }: IProvideAuth) {
     const auth = useProvideAuth();
     return (
-        // @ts-ignore
         <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
     );
 }
@@ -21,10 +47,10 @@ export function useAuth() {
 }
 
 export function useProvideAuth() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<IUser | null>(null);
 
     const getUser = async () => {
-        return await getUserRequest(`${API_URL}/auth/user`)
+        return await getUserRequest<TGetUserResponse>(`${API_URL}/auth/user`)
             .then(data => {
                 if (data.success) {
                     setUser({ ...data.user });
@@ -33,9 +59,9 @@ export function useProvideAuth() {
             }).catch(() => setUser(null));
     }
 
-    const signIn = async (url: string, user: any) => {
+    const signIn = async (url: string, user: ILoginRequestData) => {
         const data = await loginRequest(url, user)
-            .then(checkResponse)
+            .then(response => checkResponse<TSignInResponse>(response))
             .then(data => data);
 
         if (data.success) {
@@ -45,9 +71,9 @@ export function useProvideAuth() {
         }
     }
 
-    const signUp = async (url: string, data: any) => {
+    const signUp = async (url: string, data: IRegisterUserRequestData) => {
         const responseData = await registerUserRequest(url, data)
-            .then(checkResponse)
+            .then(response => checkResponse<TSignUpResponse>(response))
             .then(responseData => responseData);
 
         if(responseData.success) {
@@ -58,7 +84,9 @@ export function useProvideAuth() {
     }
 
     const signOut = async () => {
-        return await logoutRequest(`${API_URL}/auth/logout`, { token: localStorage.getItem('refreshToken') })
+        return await logoutRequest(`${API_URL}/auth/logout`, {
+            token: localStorage.getItem('refreshToken') || ''
+        })
             .then(checkResponse)
             .then(() => {
                 localStorage.removeItem('accessToken');
@@ -67,8 +95,7 @@ export function useProvideAuth() {
             });
     };
 
-    const updateUser = async (newUserData: any) => {
-        console.log(newUserData)
+    const updateUser = async (newUserData: IEditUserRequestData) => {
         return await editUserDataRequest(`${API_URL}/auth/user`, newUserData)
             .then(() => {
                 setUser({

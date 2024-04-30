@@ -1,10 +1,9 @@
 import React, {useMemo} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useDrag} from 'react-dnd';
 import {Link, useLocation} from 'react-router-dom';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {IIngredient} from '../../interfaces/IIngredient';
-import {showIngredient} from '../../services/actions/ingredients';
 import styles from './ingredient-card.module.css';
 
 interface IngredientCardProps extends React.HTMLAttributes<HTMLDivElement> {
