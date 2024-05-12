@@ -40,3 +40,8 @@
     align-items: center;
     gap: 8px;
 }
+
+.wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+}

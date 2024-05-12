@@ -1,18 +1,22 @@
 import React, {useEffect, useMemo} from 'react';
 import {Page} from '../../components/page/page';
 import {useDispatch, useSelector} from '../../hooks/store';
-import {connect} from '../../services/actions/wsActions';
 import {WS_FEED_URL} from '../../constants';
-import styles from './feed-page.module.css';
 import {FeedItem} from '../../components/feed-item/feed-item';
+import {connectFeed, disconnectFeed} from '../../services/actions/feed';
+import styles from './feed-page.module.css';
 
 export const FeedPage = () => {
     const dispatch = useDispatch();
     const { totalToday, total, orders } = useSelector(store => store.feed);
 
     useEffect(() => {
-        dispatch(connect(WS_FEED_URL));
-    }, []);
+        dispatch(connectFeed(WS_FEED_URL));
+
+        return () => {
+            dispatch(disconnectFeed());
+        }
+    }, [dispatch]);
 
     const ordersStatuses = useMemo(() => {
         const readyOrdersNumbers: number[] = orders.filter(order => order.status === 'done').slice(0, 30).map(order => order.number);
@@ -30,7 +34,7 @@ export const FeedPage = () => {
                 <div className={`${styles['feed']}`}>
                     {
                         orders.map(order => (
-                            <FeedItem order={order} key={order.number} />
+                            <FeedItem order={order} key={order.number} to={`/feed/${order.number}`} />
                         ))
                     }
                 </div>

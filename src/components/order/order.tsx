@@ -1,35 +1,52 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {useParams} from 'react-router-dom';
 import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useSelector} from '../../hooks/store';
+import {useDispatch, useSelector} from '../../hooks/store';
 import {getGroupedIngredients} from '../../utils/getGroupedIngredients';
 import styles from './order.module.css';
+import {fetchOrder} from '../../services/actions/order';
+import {ORDER_STATUSES} from '../../constants';
 
 export const Order = () => {
     const { number } = useParams();
-    const { orders } = useSelector(store => store.feed);
-    const foundOrder = orders.find(item => item.number === Number(number));
+    const dispatch = useDispatch();
+    const { loadedOrder, isOrderLoading } = useSelector(store => store.order);
     const { ingredients } = useSelector(store => store.ingredients);
 
     const sum = useMemo(() => {
         let calculatedSum = 0;
-        foundOrder?.ingredients.forEach((ingredientId: string) => {
+        loadedOrder?.ingredients.forEach((ingredientId: string) => {
             const foundIngredient = ingredients.find(ingredient => ingredient._id === ingredientId);
             calculatedSum += foundIngredient?.price || 0;
         })
         return calculatedSum;
-    }, [ingredients, foundOrder?.ingredients]);
+    }, [ingredients, loadedOrder?.ingredients]);
 
-    const groupedIngredients = getGroupedIngredients(ingredients, foundOrder?.ingredients || []);
+    const groupedIngredients = getGroupedIngredients(ingredients, loadedOrder?.ingredients || []);
 
-    if(!foundOrder) {
-        return null;
+    useEffect(() => {
+        if(!number) return;
+
+        dispatch(fetchOrder(number));
+    }, []);
+
+    if(isOrderLoading) {
+        return (
+            <div>Загрузка...</div>
+        );
     }
+
+    if(!loadedOrder) {
+        return (
+            <div>Ошибка при загрузке заказа...</div>
+        );
+    }
+
     return (
-        <div className={'wrapper'}>
-            <div className={'number text text_type_digits-default mb-10'}>#{ foundOrder.number }</div>
-            <div className={'title text text_type_main-medium mb-3'}>{ foundOrder.name }</div>
-            <div className={'text text_type_main-small mb-15'}>{ foundOrder.status }</div>
+        <div className={styles['wrapper']}>
+            <div className={'number text text_type_digits-default mb-10'}>#{ loadedOrder.number }</div>
+            <div className={'title text text_type_main-medium mb-3'}>{ loadedOrder.name }</div>
+            <div className={'text text_type_main-small mb-15'}>{ ORDER_STATUSES[loadedOrder.status] }</div>
             <div className={'ingredients mb-10'}>
                 <div className={'text text_type_main-medium mb-6'}>Состав:</div>
                 <div className={`${styles['ingredients-list']}`}>
@@ -52,7 +69,7 @@ export const Order = () => {
                 </div>
             </div>
             <div className={`${styles['bottom']}`}>
-                <FormattedDate date={new Date(foundOrder.createdAt)} className={'text text_type_main-default text_color_inactive'} />
+                { loadedOrder && <FormattedDate date={new Date(loadedOrder.createdAt)} className={'text text_type_main-default text_color_inactive'} /> }
                 <div className={`${styles['sum']} text text_type_digits-default`}>
                     { sum }
                     <CurrencyIcon type="primary" />

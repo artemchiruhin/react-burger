@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {Link, useLocation} from 'react-router-dom';
+import {Link, LinkProps, useLocation} from 'react-router-dom';
 import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components';
 import {IOrder} from '../../interfaces/IOrder';
 import {useSelector} from '../../hooks/store';
@@ -7,11 +7,11 @@ import styles from './feed-item.module.css';
 import {getGroupedIngredients} from '../../utils/getGroupedIngredients';
 import clsx from 'clsx';
 
-interface IFeedItemProps {
+type IFeedItemProps = {
     order: IOrder,
-}
+} & Pick<LinkProps, 'to'>
 
-export const FeedItem = ({ order }: IFeedItemProps) => {
+export const FeedItem = ({ order, to }: IFeedItemProps) => {
     const { ingredients } = useSelector(store => store.ingredients);
     const location = useLocation();
 
@@ -25,10 +25,10 @@ export const FeedItem = ({ order }: IFeedItemProps) => {
     }, [ingredients, order.ingredients]);
 
     const groupedIngredients = getGroupedIngredients(ingredients, order.ingredients);
-    
+
     return (
         <Link
-            to={`/feed/${order.number}`}
+            to={to}
             state={{ background: location }}
             className={`${styles['feed-item']} p-6 mb-4`}
         >

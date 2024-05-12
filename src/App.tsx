@@ -38,6 +38,7 @@ function App() {
                 <Route path={'/profile'} element={<ProtectedRouteElement element={<ProfilePage />} />}>
                     <Route path={''} element={<UserDataForm />} />
                     <Route path={'orders'} element={<UserFeed />} />
+                    <Route path={'orders/:number'} element={<Order />} />
                 </Route>
                 <Route path={'/ingredients/:id'} element={<IngredientPage />} />
                 <Route path={'/feed'} element={<FeedPage />} />
@@ -61,6 +62,18 @@ function App() {
                     />
                     <Route
                         path='/feed/:number'
+                        element={
+                            <Modal onClose={onCloseModal}>
+                                <ModalOverlay onClick={onCloseModal} />
+                                <Modal.Content className='pl-10 pr-10 pt-10 pb-15'>
+                                    <Modal.CloseButton onClick={onCloseModal} />
+                                    <Order />
+                                </Modal.Content>
+                            </Modal>
+                        }
+                    />
+                    <Route
+                        path='/profile/orders/:number'
                         element={
                             <Modal onClose={onCloseModal}>
                                 <ModalOverlay onClick={onCloseModal} />

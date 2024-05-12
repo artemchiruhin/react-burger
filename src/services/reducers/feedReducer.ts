@@ -1,9 +1,10 @@
-import {
-    WS_CONNECTION_CLOSED,
-    WS_CONNECTION_ERROR,
-    WS_CONNECTION_SUCCESS, WS_GET_MESSAGE
-} from '../actions/wsActions';
 import {IOrder} from '../../interfaces/IOrder';
+import {
+    FEED_CONNECTION_CLOSED,
+    FEED_CONNECTION_ERROR,
+    FEED_CONNECTION_SUCCESS,
+    FEED_GET_MESSAGE, TFeedActions
+} from '../actions/feed';
 
 interface IInitialState {
     wsConnected: boolean;
@@ -20,27 +21,27 @@ const initialState: IInitialState = {
     orders: [],
 }
 
-export const feedReducer = (state = initialState, action: any) => {
+export const feedReducer = (state = initialState, action: TFeedActions) => {
     switch (action.type) {
-        case WS_CONNECTION_SUCCESS:
+        case FEED_CONNECTION_SUCCESS:
             return {
                 ...state,
                 error: undefined,
                 wsConnected: true
             }
-        case WS_CONNECTION_CLOSED:
+        case FEED_CONNECTION_CLOSED:
             return {
                 ...state,
                 error: undefined,
                 wsConnected: false
             }
-        case WS_CONNECTION_ERROR:
+        case FEED_CONNECTION_ERROR:
             return {
                 ...state,
                 error: action.payload,
                 wsConnected: false
             }
-        case WS_GET_MESSAGE:
+        case FEED_GET_MESSAGE:
             const data = JSON.parse(action.payload);
             return {
                 ...state,
