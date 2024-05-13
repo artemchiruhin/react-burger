@@ -7,7 +7,7 @@ import {userFeedWsActions} from './actions/userFeed';
 export const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware()
+        return getDefaultMiddleware({ serializableCheck: false })
             .concat(socketMiddleware(feedWsActions))
             .concat(socketMiddleware(userFeedWsActions))
     }
