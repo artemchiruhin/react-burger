@@ -40,11 +40,13 @@ export const FeedItem = ({ order, to }: IFeedItemProps) => {
             <div className={`${styles['bottom']}`}>
                 <div className={`${styles['ingredients']}`}>
                     {
-                        groupedIngredients.map(ingredient => {
+                        groupedIngredients.map((ingredient, index) => {
                             return (
                                 <div className={clsx(styles['ingredient'], {
                                     [styles['more']]: ingredient.count > 1,
-                                })} data-count-more={`+${ingredient.count - 1}`}>
+                                })} data-count-more={`+${ingredient.count - 1}`}
+                                     key={ingredient.ingredient?._id || index}
+                                >
                                     <img src={ingredient.ingredient?.image_mobile} className={`${styles['ingredient-image']}`} alt={ingredient.ingredient?.name} />
                                 </div>
                             );
