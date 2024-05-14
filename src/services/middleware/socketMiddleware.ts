@@ -29,7 +29,7 @@ export const socketMiddleware = (wsActions: Record<string, string>): Middleware 
                 }
 
                 socket.onerror = event => {
-                    dispatch({ type: onError, payload: event });
+                    dispatch({ type: onError });
                 }
 
                 socket.onmessage = event => {
@@ -38,7 +38,7 @@ export const socketMiddleware = (wsActions: Record<string, string>): Middleware 
                 }
 
                 socket.onclose = event => {
-                    dispatch({ type: onClose, payload: event.code });
+                    dispatch({ type: onClose });
                 }
 
                 if (type === wsSendMessage && wsSendMessage) {
