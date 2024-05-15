@@ -51,9 +51,9 @@ export const Order = () => {
                 <div className={'text text_type_main-medium mb-6'}>Состав:</div>
                 <div className={`${styles['ingredients-list']}`}>
                     {
-                        groupedIngredients.map(ingredient => {
+                        groupedIngredients.map((ingredient, index) => {
                             return (
-                                <div className={`${styles['ingredient']} mb-4`}>
+                                <div className={`${styles['ingredient']} mb-4`} key={ingredient.ingredient?._id || index}>
                                     <div className={`${styles['ingredient-image-wrapper']}`}>
                                         <img src={ingredient.ingredient?.image_mobile} className={`${styles['ingredient-image']}`} alt={ingredient.ingredient?.name}/>
                                     </div>
