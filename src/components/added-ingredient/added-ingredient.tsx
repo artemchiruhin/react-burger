@@ -1,5 +1,4 @@
 import React, {useCallback, useRef} from 'react';
-import {useDispatch} from 'react-redux';
 import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import type { Identifier, XYCoord } from 'dnd-core'
 import {IIngredient} from '../../interfaces/IIngredient';
@@ -7,6 +6,7 @@ import styles from './added-ingredient.module.css';
 import {deleteIngredient, sortIngredients} from '../../services/actions/ingredients';
 import {useDrag, useDrop} from 'react-dnd';
 import {IDragItem} from '../../interfaces/IDragItem';
+import {useDispatch} from '../../hooks/store';
 
 interface IAddedIngredient {
     ingredient: IIngredient,

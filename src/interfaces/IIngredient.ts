@@ -14,4 +14,5 @@ export interface IIngredient {
     "image_large": string,
     "__v": number,
     "uniqueId"?: string,
+    "sort"?: number,
 }

@@ -29,10 +29,18 @@ export const AppHeader = () => {
                                 </NavLink>
                             </li>
                             <li className={`${styles['header__navigation-item']}`}>
-                                <a href="#" className={`${styles['header__navigation-link']} p-5`}>
-                                    <ListIcon type="secondary" />
-                                    <span className={`${styles['header__navigation-link-text']} ml-2`}>Лента заказов</span>
-                                </a>
+                                <NavLink to={'/feed'} className={({ isActive }) => {
+                                    return clsx(styles['header__navigation-link'], 'p-5', {
+                                        [styles['header__navigation-link--active']]: isActive,
+                                    });
+                                }}>
+                                    {({ isActive }) => (
+                                        <>
+                                            <ListIcon type={isActive ? "primary" : "secondary"}/>
+                                            <span className={`${styles['header__navigation-link-text']} ml-2`}>Лента заказов</span>
+                                        </>
+                                    )}
+                                </NavLink>
                             </li>
                         </ul>
                     </nav>

@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {Page} from '../../components/page/page';
 import {showIngredient} from '../../services/actions/ingredients';
 import {IIngredient} from '../../interfaces/IIngredient';
+import {useSelector, useDispatch} from '../../hooks/store';
 import styles from './ingredient-page.module.css';
 
 export const IngredientPage = () => {
     const { id } = useParams();
-    const { currentShowingIngredient: ingredient, ingredients } = useSelector((store: any) => store.ingredients);
+    const { currentShowingIngredient: ingredient, ingredients } = useSelector((store) => store.ingredients);
     const dispatch = useDispatch();
 
     useEffect(() => {

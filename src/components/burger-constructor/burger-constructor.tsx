@@ -1,6 +1,5 @@
 import React, {useMemo, useState} from 'react';
 import {ConstructorElement, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {useDrop} from 'react-dnd';
 import {Modal} from '../modal/modal';
@@ -11,11 +10,12 @@ import {addIngredient, chooseBun} from '../../services/actions/ingredients';
 import {createOrder} from '../../services/actions/order';
 import {AddedIngredient} from '../added-ingredient/added-ingredient';
 import {useAuth} from '../../utils/auth';
+import {useSelector, useDispatch} from '../../hooks/store';
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = () => {
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
-    const { addedIngredients, chosenBun }: { addedIngredients: IIngredient[], chosenBun: IIngredient } = useSelector((store: any) => store.ingredients);
+    const { addedIngredients, chosenBun } = useSelector((store) => store.ingredients);
     const dispatch = useDispatch();
     const { user } = useAuth();
     const navigate = useNavigate();
@@ -25,8 +25,11 @@ export const BurgerConstructor = () => {
             navigate('/login');
             return;
         }
+        if(!chosenBun) {
+            return;
+        }
         setIsModalShown(true);
-        dispatch(createOrder({ ingredients: [...addedIngredients.map(ingredient => ingredient._id), chosenBun._id] }) as any);
+        dispatch(createOrder({ ingredients: [...addedIngredients.map(ingredient => ingredient._id), chosenBun._id] }));
     }
 
     const onCloseModal = () => {

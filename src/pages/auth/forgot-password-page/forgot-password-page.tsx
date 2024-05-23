@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
 import {EmailInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Page} from '../../../components/page/page';
 import {sendRecoveryLink} from '../../../services/actions/forgotPassword';
+import {useSelector, useDispatch} from '../../../hooks/store';
 
 export const ForgotPasswordPage = () => {
     const [email, setEmail] = useState('');
     const dispatch = useDispatch();
-    const { isLoading } = useSelector((store: any) => store.forgotPassword);
+    const { isLoading } = useSelector((store) => store.forgotPassword);
     const navigate = useNavigate();
 
     const onChangeEmail = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +17,7 @@ export const ForgotPasswordPage = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(sendRecoveryLink({ email }) as any);
+        dispatch(sendRecoveryLink({ email }));
         navigate('/reset-password');
     }, [dispatch, email, navigate]);
 

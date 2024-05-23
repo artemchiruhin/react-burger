@@ -22,7 +22,7 @@ export const Modal = ({ children, className, onClose, ...props }: ModalProps) =>
         <div className={`${styles['modal']} ${className}`} {...props}>
             { children }
         </div>,
-        document.body
+        document.querySelector('#modals') || document.body
     );
 }
 

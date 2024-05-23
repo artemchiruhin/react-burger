@@ -1,17 +1,16 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useDispatch, useSelector} from 'react-redux';
 import {IngredientCard} from '../ingredient-card/ingredient-card';
 import {IIngredientBlock} from '../../interfaces/IIngredientBlock';
 import {IIngredient} from '../../interfaces/IIngredient';
 import {addIngredient, chooseBun} from '../../services/actions/ingredients';
+import {useSelector, useDispatch} from '../../hooks/store';
 import styles from './burger-ingredients.module.css';
-
 
 export const BurgerIngredients = () => {
     const [currentBlock, setCurrentBlock] = useState('main');
     const observer = useRef<IntersectionObserver | null>(null);
-    const { ingredients }: {ingredients: IIngredient[]} = useSelector((store: any) => store.ingredients);
+    const { ingredients }: {ingredients: IIngredient[]} = useSelector((store) => store.ingredients);
     const dispatch = useDispatch();
 
     const onAddIngredient = useCallback((ingredient: IIngredient) => {

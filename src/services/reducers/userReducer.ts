@@ -1,5 +1,5 @@
 import {Nullable} from '../../types/Nullable';
-import {USER_DATA_EDIT_ERROR, USER_DATA_EDIT_REQUEST, USER_DATA_EDIT_SUCCESS} from '../actions/user';
+import {TUserActions, USER_DATA_EDIT_ERROR, USER_DATA_EDIT_REQUEST, USER_DATA_EDIT_SUCCESS} from '../actions/user';
 
 interface IInitialState {
     isLoading: boolean,
@@ -11,7 +11,7 @@ const initialState: IInitialState = {
     error: null,
 }
 
-export const userReducer = (state = initialState, action: any) => {
+export const userReducer = (state = initialState, action: TUserActions) => {
     switch (action.type) {
         case USER_DATA_EDIT_REQUEST:
             return {

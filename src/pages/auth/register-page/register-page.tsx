@@ -1,17 +1,17 @@
 import React, {useCallback, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
 import {Input, EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Page} from '../../../components/page/page';
 import {registerUser} from '../../../services/actions/register';
 import {useAuth} from '../../../utils/auth';
+import {useSelector, useDispatch} from '../../../hooks/store';
 
 export const RegisterPage = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    const { isLoading } = useSelector((store: any) => store.register);
+    const { isLoading } = useSelector((store) => store.register);
     const navigate = useNavigate();
     const { signUp } = useAuth();
 
@@ -29,7 +29,7 @@ export const RegisterPage = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(registerUser({ email, name, password, signUp }) as any);
+        dispatch(registerUser({ email, name, password, signUp }));
         navigate('/');
     }, [dispatch, email, name, password, signUp, navigate]);
 

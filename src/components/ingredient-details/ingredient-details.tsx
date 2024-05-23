@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import styles from './ingredient-details.module.css';
-import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {IIngredient} from '../../interfaces/IIngredient';
 import {showIngredient} from '../../services/actions/ingredients';
+import {useSelector, useDispatch} from '../../hooks/store';
 
 export const IngredientDetails = () => {
     const { id } = useParams();
-    const { currentShowingIngredient: ingredient, ingredients } = useSelector((store: any) => store.ingredients);
+    const { currentShowingIngredient: ingredient, ingredients } = useSelector((store) => store.ingredients);
     const dispatch = useDispatch();
 
     useEffect(() => {

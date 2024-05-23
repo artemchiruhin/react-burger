@@ -1,5 +1,5 @@
 import {Nullable} from '../../types/Nullable';
-import {AUTH_ERROR, AUTH_REQUEST, AUTH_SUCCESS} from '../actions/auth';
+import {AUTH_ERROR, AUTH_REQUEST, AUTH_SUCCESS, TAuthActions} from '../actions/auth';
 
 interface IInitialState {
     isLoading: boolean,
@@ -11,7 +11,7 @@ const initialState: IInitialState = {
     error: null,
 }
 
-export const authReducer = (state = initialState, action: any) => {
+export const authReducer = (state = initialState, action: TAuthActions): IInitialState => {
     switch (action.type) {
         case AUTH_REQUEST:
             return {
@@ -23,7 +23,7 @@ export const authReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 isLoading: false,
-                error: action.payload,
+                error: action.payload || null,
             }
         case AUTH_SUCCESS:
             return {

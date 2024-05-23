@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
 import {Button, PasswordInput, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Page} from '../../../components/page/page';
 import {resetPassword} from '../../../services/actions/resetPassword';
+import {useDispatch} from '../../../hooks/store';
 
 export const ResetPasswordPage = () => {
     const [password, setPassword] = useState('');
@@ -21,7 +21,7 @@ export const ResetPasswordPage = () => {
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        dispatch(resetPassword({ password, code }) as any)
+        dispatch(resetPassword({ password, code }))
         navigate('/login');
     }, [code, dispatch, navigate, password]);
 

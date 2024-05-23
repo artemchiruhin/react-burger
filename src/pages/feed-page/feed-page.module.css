@@ -1,0 +1,27 @@
+.feed-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 60px;
+}
+.feed-title {
+    grid-column: 1 / -1;
+}
+
+.products-numbers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 36px;
+}
+
+.product-ready-number {
+    color: #00CCCC;
+}
+
+.feed {
+    max-height: 695px;
+    overflow-y: auto;
+}
+
+.orders-numbers-list {
+    columns: 3;
+}

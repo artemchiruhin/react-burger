@@ -1,5 +1,10 @@
 import {Nullable} from '../../types/Nullable';
-import {FORGOT_PASSWORD_ERROR, FORGOT_PASSWORD_LOADING, FORGOT_PASSWORD_SUCCESS} from '../actions/forgotPassword';
+import {
+    FORGOT_PASSWORD_ERROR,
+    FORGOT_PASSWORD_LOADING,
+    FORGOT_PASSWORD_SUCCESS,
+    TForgotPasswordActions
+} from '../actions/forgotPassword';
 
 interface IInitialState {
     isLoading: boolean,
@@ -11,7 +16,7 @@ const initialState: IInitialState = {
     error: null,
 }
 
-export const forgotPasswordReducer = (state = initialState, action: any) => {
+export const forgotPasswordReducer = (state = initialState, action: TForgotPasswordActions): IInitialState => {
     switch (action.type) {
         case FORGOT_PASSWORD_LOADING:
             return {
@@ -23,7 +28,7 @@ export const forgotPasswordReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 isLoading: false,
-                error: action.payload,
+                error: action.payload || null,
             }
         case FORGOT_PASSWORD_SUCCESS:
             return {
