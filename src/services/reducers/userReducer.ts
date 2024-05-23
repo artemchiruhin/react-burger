@@ -6,7 +6,7 @@ interface IInitialState {
     error: Nullable<string>,
 }
 
-const initialState: IInitialState = {
+export const initialState: IInitialState = {
     isLoading: false,
     error: null,
 }

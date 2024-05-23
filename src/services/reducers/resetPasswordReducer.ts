@@ -4,13 +4,16 @@ import {
     RESET_PASSWORD_SUCCESS,
     TResetPasswordActions
 } from '../actions/resetPassword';
+import {Nullable} from '../../types/Nullable';
 
 interface IInitialState {
     isLoading: boolean,
+    error: Nullable<string>,
 }
 
-const initialState: IInitialState = {
+export const initialState: IInitialState = {
     isLoading: false,
+    error: null,
 }
 
 export const resetPasswordReducer = (state = initialState, action: TResetPasswordActions) => {
@@ -19,11 +22,13 @@ export const resetPasswordReducer = (state = initialState, action: TResetPasswor
             return {
                 ...state,
                 isLoading: true,
+                error: null,
             }
         case RESET_PASSWORD_ERROR:
             return {
                 ...state,
                 isLoading: false,
+                error: action.payload,
             }
         case RESET_PASSWORD_SUCCESS:
             return {

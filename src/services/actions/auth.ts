@@ -21,9 +21,9 @@ export const authWasSuccessful = (): IAuthWasSuccessful => ({
 
 export interface IAuthWasUnSuccessful {
     readonly type: typeof AUTH_ERROR,
-    readonly payload?: string,
+    readonly payload: string,
 }
-export const authWasUnSuccessful = (errorMassage?: string): IAuthWasUnSuccessful => ({
+export const authWasUnSuccessful = (errorMassage: string): IAuthWasUnSuccessful => ({
     type: AUTH_ERROR,
     payload: errorMassage,
 });

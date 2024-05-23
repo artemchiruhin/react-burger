@@ -1,8 +1,8 @@
 import {IOrder} from '../../interfaces/IOrder';
 import {
-    FEED_CONNECTION_CLOSED,
+    FEED_CONNECTION_CLOSE,
     FEED_CONNECTION_ERROR,
-    FEED_CONNECTION_SUCCESS,
+    FEED_CONNECTION_INIT,
     FEED_GET_MESSAGE, TFeedActions
 } from '../actions/feed';
 
@@ -14,7 +14,7 @@ interface IInitialState {
     orders: IOrder[],
 }
 
-const initialState: IInitialState = {
+export const initialState: IInitialState = {
     wsConnected: false,
     totalToday: 0,
     total: 0,
@@ -23,13 +23,13 @@ const initialState: IInitialState = {
 
 export const feedReducer = (state = initialState, action: TFeedActions) => {
     switch (action.type) {
-        case FEED_CONNECTION_SUCCESS:
+        case FEED_CONNECTION_INIT:
             return {
                 ...state,
                 error: undefined,
                 wsConnected: true
             }
-        case FEED_CONNECTION_CLOSED:
+        case FEED_CONNECTION_CLOSE:
             return {
                 ...state,
                 error: undefined,

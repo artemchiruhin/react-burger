@@ -6,7 +6,7 @@ interface IInitialState {
     error: Nullable<string>,
 }
 
-const initialState: IInitialState = {
+export const initialState: IInitialState = {
     isLoading: false,
     error: null,
 }
@@ -23,7 +23,7 @@ export const authReducer = (state = initialState, action: TAuthActions): IInitia
             return {
                 ...state,
                 isLoading: false,
-                error: action.payload || null,
+                error: action.payload,
             }
         case AUTH_SUCCESS:
             return {
