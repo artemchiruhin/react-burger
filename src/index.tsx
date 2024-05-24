@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter} from 'react-router-dom';
+import {HashRouter as Router} from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
 import {DndProvider} from 'react-dnd';
@@ -21,9 +21,9 @@ root.render(
         <Provider store={store}>
             <DndProvider backend={HTML5Backend}>
                 <ProvideAuth>
-                    <BrowserRouter>
+                    <Router>
                         <App/>
-                    </BrowserRouter>
+                    </Router>
                 </ProvideAuth>
             </DndProvider>
         </Provider>
