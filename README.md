@@ -19,4 +19,4 @@ $ npm run cypress:open
 $ npm run deploy
 ```
 
-Проект доступен по [https://artemchiruhin.github.io/react-burger/index.html](ссылке)
+Проект доступен по [https://artemchiruhin.github.io/react-burger/](ссылке)
