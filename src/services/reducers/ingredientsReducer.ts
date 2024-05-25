@@ -17,7 +17,7 @@ interface IInitialState {
     currentShowingIngredient: IIngredient | null,
 }
 
-const initialState: IInitialState = {
+export const initialState: IInitialState = {
     ingredients: [],
     error: null,
     isLoading: false,

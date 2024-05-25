@@ -53,7 +53,7 @@ function App() {
                             <Modal onClose={onCloseModal}>
                                 <ModalOverlay onClick={onCloseModal} />
                                 <Modal.Content className='pl-10 pr-10 pt-10 pb-15'>
-                                    <Modal.Title className='text text_type_main-large'>Детали ингредиента</Modal.Title>
+                                    <Modal.Title className='text text_type_main-large' data-test-id="ingredient-modal-title">Детали ингредиента</Modal.Title>
                                     <Modal.CloseButton onClick={onCloseModal} />
                                     <IngredientDetails />
                                 </Modal.Content>

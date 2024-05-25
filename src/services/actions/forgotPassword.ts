@@ -25,7 +25,7 @@ export interface IForgotPasswordRequestWasUnSuccessful {
     readonly type: typeof FORGOT_PASSWORD_ERROR,
     readonly payload: string,
 }
-export const forgotPasswordRequestWasUnSuccessful = (errorMessage?: string) => ({
+export const forgotPasswordRequestWasUnSuccessful = (errorMessage: string): IForgotPasswordRequestWasUnSuccessful => ({
     type: FORGOT_PASSWORD_ERROR,
     payload: errorMessage,
 });
@@ -42,7 +42,7 @@ export const sendRecoveryLink = ({ email }: IRecoveryLink) => (dispatch: AppDisp
             dispatch(forgotPasswordRequestWasSuccessful());
             localStorage.setItem('recoveryLinkWasSent', 'Y');
         })
-        .catch(() => dispatch(forgotPasswordRequestWasUnSuccessful()));
+        .catch(() => dispatch(forgotPasswordRequestWasUnSuccessful('При отправке ссылки произошла ошибка')));
 }
 
 export type TForgotPasswordActions =
