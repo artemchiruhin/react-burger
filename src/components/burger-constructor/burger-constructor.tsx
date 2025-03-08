@@ -17,11 +17,10 @@ export const BurgerConstructor = () => {
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
     const { addedIngredients, chosenBun } = useSelector((store) => store.ingredients);
     const dispatch = useDispatch();
-    const { user } = useAuth();
     const navigate = useNavigate();
 
     const onClickCreateOrder = () => {
-        if(!user) {
+        if(!window.localStorage.getItem('accessToken')) {
             navigate('/login');
             return;
         }
@@ -68,7 +67,7 @@ export const BurgerConstructor = () => {
                     </Modal.Content>
                 </Modal>
             }
-            <div className="pt-25" ref={drop}>
+            <div className="pt-25" ref={drop} data-test-id="constructor">
                 <div className={`${styles['elements']}`}>
                     { !!chosenBun &&
                         <div className={`${styles['element-wrapper']}`}>
@@ -106,7 +105,7 @@ export const BurgerConstructor = () => {
                             <span className="text text_type_digits-medium">{orderSum}</span>
                             <CurrencyIcon type="primary" />
                         </div>
-                        <Button htmlType="button" type="primary" size="large" onClick={onClickCreateOrder}>
+                        <Button htmlType="button" type="primary" size="large" onClick={onClickCreateOrder} data-test-id="button-create-order">
                             Оформить заказ
                         </Button>
                     </div>

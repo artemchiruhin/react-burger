@@ -21,9 +21,11 @@ export const registerRequestWasSuccessful = (): IRegisterRequestWasSuccessful =>
 
 export interface IRegisterRequestWasUnSuccessful {
     readonly type: typeof REGISTER_ERROR,
+    readonly payload: string,
 }
-export const registerRequestWasUnSuccessful = (): IRegisterRequestWasUnSuccessful => ({
+export const registerRequestWasUnSuccessful = (errorMessage: string): IRegisterRequestWasUnSuccessful => ({
     type: REGISTER_ERROR,
+    payload: errorMessage,
 });
 
 interface IRegisterUser {
@@ -39,7 +41,7 @@ export const registerUser = ({ email, name, password, signUp }: IRegisterUser) =
         name, email, password
     }).then(() => {
         dispatch(registerRequestWasSuccessful());
-    }).catch(() => dispatch(registerRequestWasUnSuccessful()));
+    }).catch(() => dispatch(registerRequestWasUnSuccessful('При регистрации произошла ошибка')));
 }
 
 export type TRegisterActions =

@@ -23,9 +23,11 @@ export const resetPasswordRequestWasSuccessful = (): IResetPasswordRequestWasSuc
 
 export interface IResetPasswordRequestWasUnSuccessful {
     readonly type: typeof RESET_PASSWORD_ERROR,
+    readonly payload: string,
 }
-export const resetPasswordRequestWasUnSuccessful = (): IResetPasswordRequestWasUnSuccessful => ({
+export const resetPasswordRequestWasUnSuccessful = (errorMessage: string): IResetPasswordRequestWasUnSuccessful => ({
     type: RESET_PASSWORD_ERROR,
+    payload: errorMessage,
 });
 
 interface IResetPassword {
@@ -41,7 +43,7 @@ export const resetPassword = ({ password, code }: IResetPassword) => (dispatch: 
             dispatch(resetPasswordRequestWasSuccessful());
             localStorage.removeItem('recoveryLinkWasSent');
         })
-        .catch(() => dispatch(resetPasswordRequestWasUnSuccessful()));
+        .catch(() => dispatch(resetPasswordRequestWasUnSuccessful('При восстановлении пароля произошла ошибка')));
 }
 
 export type TResetPasswordActions =

@@ -33,6 +33,7 @@ export const IngredientCard = ({ ingredient, ...props }: IngredientCardProps) =>
             to={`/ingredients/${ingredient._id}`}
             state={{ background: location }}
             className={`${styles['link']}`}
+            data-test-id={`ingredient-card-${ingredient.type}`}
         >
             <div className={`${styles['wrapper']}`} {...props} ref={drag}>
                 <div className={`${styles['image-wrapper']} pl-4 pr-4 mb-1`}>

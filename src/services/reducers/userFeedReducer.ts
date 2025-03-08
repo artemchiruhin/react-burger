@@ -3,7 +3,7 @@ import {
     TUserFeedActions,
     USER_FEED_CONNECTION_CLOSED,
     USER_FEED_CONNECTION_ERROR,
-    USER_FEED_CONNECTION_SUCCESS,
+    USER_FEED_CONNECTION_INIT,
     USER_FEED_GET_MESSAGE
 } from '../actions/userFeed';
 
@@ -13,14 +13,14 @@ interface IInitialState {
     orders: IOrder[],
 }
 
-const initialState: IInitialState = {
+export const initialState: IInitialState = {
     wsConnected: false,
     orders: [],
 }
 
 export const userFeedReducer = (state = initialState, action: TUserFeedActions) => {
     switch (action.type) {
-        case USER_FEED_CONNECTION_SUCCESS:
+        case USER_FEED_CONNECTION_INIT:
             return {
                 ...state,
                 error: undefined,

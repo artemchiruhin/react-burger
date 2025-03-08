@@ -17,7 +17,7 @@ interface IInitialState {
     loadedOrder?: IOrder,
 }
 
-const initialState: IInitialState = {
+export const initialState: IInitialState = {
     isLoading: false,
     error: null,
     isOrderLoading: false,
